@@ -4,6 +4,8 @@ import { cookies } from "next/headers";
 import PreviewPost from "./components/preview-post";
 import { Post } from "@/app/types/post";
 import { Database } from "@/app/types/database";
+
+export const dynamic = "force-dynamic";
 const page = async ({ params }: { params: { userId: string } }) => {
   console.log(params);
   const supabase = createServerComponentClient<Database>({ cookies });
