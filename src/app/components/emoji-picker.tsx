@@ -14,6 +14,8 @@ const EmojiPicker: React.FC<EmojiPickerProps> = ({ onSelect }) => {
       <Picker
         data={data}
         onEmojiSelect={(e: any) => onSelect(e.native as string)}
+        className="h-[300px]"
+        style={{ height: "300px" }}
       />
     </>
   );

@@ -4,11 +4,15 @@ import { cookies } from "next/headers";
 import PreviewPost from "./components/preview-post";
 import { Post } from "@/app/types/post";
 import { Database } from "@/app/types/database";
+import ButtonFollower from "../components/btn-follower";
 
 export const dynamic = "force-dynamic";
 const page = async ({ params }: { params: { userId: string } }) => {
   console.log(params);
   const supabase = createServerComponentClient<Database>({ cookies });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   const { data: users, error } = await supabase
     .from("users")
     .select()
@@ -16,20 +20,31 @@ const page = async ({ params }: { params: { userId: string } }) => {
   const { data: posts, error: errorPost } = await supabase
     .from("posts")
     .select("*, users(*), likes(*)")
-    .eq("user_id", params.userId);
+    .eq("user_id", params.userId)
+    .order("created_at", { ascending: false });
+
+  const { data: following } = await supabase
+    .from("followers")
+    .select()
+    .eq("followers_id", params.userId);
+  const { data: followed } = await supabase
+    .from("followers")
+    .select()
+    .eq("owner_id", params.userId);
+  console.log(following, "isFollower");
   console.log(posts);
   console.log(users);
   return (
     <section className="min-h-screen">
       <main className="flex flex-col min-h-full ">
-        <div className="px-4 md:px-10 lg:mx-[100px]">
+        <div className="px-2 md:px-10 lg:mx-[100px]">
           <header className="flex justify-between md:justify-around bg-white p-3 rounded-md border-b-2">
-            <div className="text-center">
-              <p className="font-thin">Seguidores</p>
-              <p className=" font-bold">200</p>
+            <div className="flex flex-col justify-end text-center">
+              <p className="text-sm font-thin">Seguidores</p>
+              <p className="text-sm font-bold">{following?.length}</p>
             </div>
             <div>
-              <div className="w-[150px] h-[160px] md:w-[150px] ">
+              <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px] ">
                 {users && users[0].avatar_url ? (
                   <img
                     src={users[0]?.avatar_url}
@@ -38,16 +53,24 @@ const page = async ({ params }: { params: { userId: string } }) => {
                   />
                 ) : null}
               </div>
-              <p className="mt-2 text-center text-xl">
+              <p className="mt-2 text-center text-md">
                 {users && users[0].full_name}
               </p>
-              <button className="bg-sky-500 w-full rounded-md p-2 mt-3 text-white">
-                Seguir
-              </button>
+              {user?.id !== params.userId && (
+                <ButtonFollower
+                  isFollowing={
+                    following?.some((f) => f.owner_id === user?.id)
+                      ? true
+                      : false
+                  }
+                  followers_id={params.userId}
+                  owner_id={user?.id as string}
+                />
+              )}
             </div>
-            <div className="text-center">
-              <p className=" font-thin">Seguidos</p>
-              <p className=" font-bold">200</p>
+            <div className="flex flex-col justify-end text-center">
+              <p className="text-sm font-thin">Seguidos</p>
+              <p className="text-sm font-bold">{followed?.length}</p>
             </div>
           </header>
 

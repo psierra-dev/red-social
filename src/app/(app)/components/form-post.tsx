@@ -5,17 +5,25 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useRef, useState } from "react";
 import { BiHappy, BiImage } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
+import { useRouter } from "next/navigation";
 
-const FormPost = () => {
+const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const [text, setText] = useState("");
   const [file, setFile] = useState<File | null>(null);
   const [selectedImage, setSelectedImage] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
+  const [status, setStatus] = useState<
+    "typing" | "loading" | "success" | "error"
+  >("typing");
+
+  const router = useRouter();
+
   const supabase = createClientComponentClient();
   const inputImage = useRef<HTMLInputElement | null>(null);
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
+    setStatus("loading");
     const {
       data: { session },
     } = await supabase.auth.getSession();
@@ -36,6 +44,12 @@ const FormPost = () => {
           image_url: publicUrl,
           user_id: session?.user.id,
         });
+
+      if (errorPost === null) {
+        router.refresh();
+        onCloseModal();
+        setStatus("success");
+      }
 
       console.log(post);
       console.log(errorPost);
@@ -60,6 +74,15 @@ const FormPost = () => {
 
   return (
     <div className="relative bg-white p-6 w-full max-w-[600px] m-2 rounded-lg">
+      {status === "loading" && (
+        <div className="absolute top-0 bottom-0 right-0 left-0 bg-[#e4e4e4b4] z-20 flex items-center justify-center">
+          <div className="flex flex-col items-center justify-center">
+            <div className="w-16 h-16 border-t-4 border-black border-solid border-opacity-50 rounded-full animate-spin"></div>
+
+            <p className="text-[18px] font-bold text-black">Posteando</p>
+          </div>
+        </div>
+      )}
       <h2 className="text-start text-2xl text-gray-700">Crear un post</h2>
       <form onSubmit={handleSubmit}>
         <div className="flex flex-col  gap-6">
@@ -69,8 +92,8 @@ const FormPost = () => {
               name="content"
               id=""
               onChange={(e) => setText(e.target.value)}
-              placeholder="Escribe un posteo..."
-              className="w-full  p-3 mt-2 text-lg grow focus::border-10 hover:bg-gray-200"
+              placeholder="Escribe un pie de foto..."
+              className="w-full h-[100px]  p-3 mt-2 text-lg grow focus:outline-none hover:bg-gray-200"
               autoFocus={true}
               style={{}}
             />
