@@ -8,7 +8,7 @@ const AuthButton = () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "http://localhost:3000/auth/callback",
+        redirectTo: "https://red-social-sigma.vercel.app/auth/callback",
       },
     });
   };
