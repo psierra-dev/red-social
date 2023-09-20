@@ -2,13 +2,13 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
 import { redirect } from "next/navigation";
 import { cookies } from "next/headers";
-import PreviewPost from "../components/preview-post";
 import { Post } from "@/app/types/post";
 import { Database } from "@/app/types/database";
 import PerfilInfo from "./components/perfil-info";
 import PostService from "@/app/services/post";
 import UserService from "@/app/services/user";
 import FollowersService from "@/app/services/followers";
+import ListPost from "../components/list-post";
 
 export const dynamic = "force-dynamic";
 const page = async ({ params }: { params: { userId: string } }) => {
@@ -46,7 +46,7 @@ const page = async ({ params }: { params: { userId: string } }) => {
         />
       )}
 
-      {posts !== null && <PreviewPost posts={posts as Post[]} />}
+      {posts !== null && <ListPost posts={posts as Post[]} />}
     </>
   );
 };
