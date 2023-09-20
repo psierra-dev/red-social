@@ -1,8 +1,8 @@
 import { Post } from "@/app/types/post";
 import React from "react";
-import PostCard from "../../components/post-card";
+import PostCard from "./post-card";
 
-const PreviewPost = ({ posts }: { posts: Post[] }) => {
+const ListPost = ({ posts }: { posts: Post[] }) => {
   return (
     <div className="p-2 flex flex-col items-center mb-[70px]">
       {posts.length > 0 && posts.map((p) => <PostCard key={p.id} post={p} />)}
@@ -10,4 +10,4 @@ const PreviewPost = ({ posts }: { posts: Post[] }) => {
   );
 };
 
-export default PreviewPost;
+export default ListPost;

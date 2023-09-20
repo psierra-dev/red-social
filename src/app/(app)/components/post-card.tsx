@@ -1,23 +1,30 @@
 import { Post } from "@/app/types/post";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
-import { BiDotsHorizontalRounded, BiMessageRounded } from "react-icons/bi";
+import { BiMessageRounded } from "react-icons/bi";
 import { cookies } from "next/headers";
 import { Database } from "@/app/types/database";
 import BtnLike from "./btn-like";
-import { timePosts } from "@/app/util/hora";
+import timePosts from "@/app/util/hora";
 import OptionPost from "./option-post";
+import ContentPost from "./content-post";
+import InpuntComment from "./input-comment";
+import CommetsService from "@/app/services/comment";
+import UserService from "@/app/services/user";
+import { User } from "@/app/types/user";
+import Link from "next/link";
 const PostCard = async ({ post }: { post: Post }) => {
   const supabase = createServerComponentClient<Database>({ cookies });
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+
+  const userService = new UserService(supabase);
+  const { data: user } = await userService.getUser();
 
   const time = timePosts(post.created_at);
   const { data: likes } = await supabase
     .from("likes")
     .select()
     .eq("post_id", post.id);
+  console.log(post.likes[0].count);
   return (
     <div className="flex flex-col gap-3 p-2 md:p-4 rounded-xl w-full max-w-[500px] shadow-lg">
       <header className="flex justify-between w-full">
@@ -51,17 +58,19 @@ const PostCard = async ({ post }: { post: Post }) => {
           />
         )}
         <div className="flex flex-col justify-center items-center">
-          <button className="text-3xl">
-            <BiMessageRounded />
-          </button>
-          <span>{post.likes.length}</span>
+          <Link key={post.id} href={`/c/${post.id}`}>
+            <div className=" text-3xl">
+              <BiMessageRounded />
+            </div>
+          </Link>
+          <span>{post.comments[0].count}</span>
         </div>
         <div className="grow"></div>
       </div>
 
-      <div className=" text-md font-extralight">
-        <p>{post?.content}</p>
-      </div>
+      <ContentPost text={post?.content as string} />
+
+      <InpuntComment post_id={post.id} user={user as User} />
     </div>
   );
 };

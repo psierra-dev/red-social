@@ -17,7 +17,7 @@ const NavBar = async () => {
 
   console.log(user, "user");
   return (
-    <div className="fixed bottom-0 md:left-0 md:top-0 w-full md:w-auto bg-white border-2 p-1 md:p-4 rounded-t-[30px] md:rounded-none">
+    <div className="fixed bottom-0 z-40 md:left-0 md:top-0 w-full md:w-auto bg-white border-2 p-1 md:p-4 rounded-t-[30px] md:rounded-none">
       <nav>
         <ul className="flex md:flex-col md:gap-6 justify-between items-center ">
           <li className="text-3xl">

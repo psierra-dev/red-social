@@ -1,4 +1,5 @@
 "use client";
+import PostService from "@/app/services/post";
 import { Likes } from "@/app/types/likes";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useState } from "react";
@@ -18,32 +19,23 @@ const BtnLike = ({
   const [allLikes, setAllLikes] = useState(likes.length);
   const [like, setLike] = useState(isLike);
   const supabase = createClientComponentClient();
+  const postService = new PostService(supabase);
   const handleLike = async () => {
     updateLike(like);
 
     if (like) {
       //deslike
-      const { data, error } = await supabase
-        .from("likes")
-        .delete()
-        .eq("post_id", postId)
-        .eq("user_id", userId);
+      const { data, error } = await postService.like_deslike(postId, "deslike");
       console.log(data, error);
       if (error) {
         updateLike(false);
       }
-      console.log("deslike", data, error);
     } else {
       //like
-      const { data, error } = await supabase.from("likes").insert({
-        post_id: postId,
-        user_id: userId,
-      });
-
+      const { data, error } = await postService.like_deslike(postId, "like");
       if (error) {
         updateLike(true);
       }
-      console.log("like", data, error);
     }
   };
 

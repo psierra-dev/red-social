@@ -3,12 +3,12 @@ import React from "react";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 const AuthButton = () => {
   const supabase = createClientComponentClient();
-
+  console.log(process.env.NEXT_PUBLIC_URL_APP);
   const handleSignIn = async () => {
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
-        redirectTo: "https://red-social-sigma.vercel.app/auth/callback",
+        redirectTo: `${process.env.NEXT_PUBLIC_URL_APP}auth/callback`,
       },
     });
   };

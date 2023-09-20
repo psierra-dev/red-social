@@ -9,6 +9,43 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: number
+          post_id?: number | null
+          user_id?: string | null
+        }
+        Insert: {
+          content?: string
+          created_at?: string
+          id?: number
+          post_id?: number | null
+          user_id?: string | null
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: number
+          post_id?: number | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_post_id_fkey"
+            columns: ["post_id"]
+            referencedRelation: "posts"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "comments_user_id_fkey"
+            columns: ["user_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       followed: {
         Row: {
           created_at: string
@@ -157,26 +194,28 @@ export interface Database {
       posts: {
         Row: {
           content: string | null
+          create: string | null
           created_at: string
           id: number
           image_url: string | null
-          likes: []
-          user_id: string | null
+          user_id: string | null,
+          likes?: [{count: number}],
+          comments?: [{count: number}],
         }
         Insert: {
           content?: string | null
+          create?: string | null
           created_at?: string
           id?: number
           image_url?: string | null
-          likes?: number
           user_id?: string | null
         }
         Update: {
           content?: string | null
+          create?: string | null
           created_at?: string
           id?: number
           image_url?: string | null
-          likes?: number
           user_id?: string | null
         }
         Relationships: [
