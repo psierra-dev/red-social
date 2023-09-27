@@ -1,7 +1,7 @@
 import React from "react";
 import Notification from "../components/notification";
 import BtnBack from "../components/btn-back";
-
+export const dynamic = "force-dynamic";
 const page = () => {
   return (
     <div className=" w-screen h-screen fixed bg-white z-50">
