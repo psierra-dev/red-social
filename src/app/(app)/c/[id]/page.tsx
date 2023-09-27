@@ -18,7 +18,7 @@ export default async function PhotoPage({
   return (
     <div className="container mx-auto my-10">
       <div className="w-1/2 mx-auto border border-gray-700">
-        <ListComment comments={data as Comment[]} post_id={id} />
+        <ListComment comments={data as Comment[]} />
       </div>
     </div>
   );
