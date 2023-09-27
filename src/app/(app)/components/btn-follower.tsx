@@ -1,30 +1,32 @@
 "use client";
 
+import FollowersService from "@/app/services/followers";
+import NotificationService from "@/app/services/notification";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useState } from "react";
 
 const ButtonFollower = ({
   followers_id,
-  owner_id,
   isFollowing,
 }: {
   followers_id: string;
-  owner_id: string;
   isFollowing: boolean;
 }) => {
   console.log(isFollowing);
   const [following, setFollowing] = useState(isFollowing);
   const supabase = createClientComponentClient();
-
+  const notiServe = new NotificationService(supabase);
+  const followersService = new FollowersService(supabase);
   const handleFollower = async () => {
-    const { data, error } = await supabase.from("followers").insert({
-      followers_id: followers_id,
-      owner_id: owner_id,
-    });
+    const { data, error } = await followersService.add(followers_id);
     console.log(data, error);
     if (error === null) {
       console.log("aquiii");
       setFollowing(true);
+      await notiServe.add({
+        receptor_id: followers_id,
+        type: "followers",
+      });
     }
   };
   return (

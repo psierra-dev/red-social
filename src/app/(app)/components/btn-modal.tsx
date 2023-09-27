@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { BiPlusCircle } from "react-icons/bi";
 import FormPost from "./form-post";
 
-const ButtonModal = () => {
+const ButtonPost = () => {
   const [modal, setModal] = useState(false);
   useEffect(() => {
     modal
@@ -27,4 +27,4 @@ const ButtonModal = () => {
   );
 };
 
-export default ButtonModal;
+export default ButtonPost;

@@ -13,6 +13,17 @@ export default class FollowersService {
       this.auth = new AuthService(client)
     }
     
+
+    async add(followers_id: string) {
+        const user = await this.auth.getUser()
+
+       const {data, error} = await this.supabase.from('followers').insert({
+            followers_id,
+            owner_id: user?.id
+        })
+
+        return {data, error}
+    }
     async getFollwing(user_id?: string){
         const { data: following, error } = await this.supabase
         .from("followers")

@@ -2,10 +2,9 @@
 import Skeleton from "@/app/components/skeleton";
 import { User } from "@/app/types/user";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiX } from "react-icons/bi";
 
 const Search = ({ onClose }: { onClose: () => void }) => {
   const supabase = createClientComponentClient();
@@ -15,25 +14,22 @@ const Search = ({ onClose }: { onClose: () => void }) => {
     "typing" | "loading" | "success" | "error"
   >("typing");
   const [data, setData] = useState<User[] | []>([]);
+
   const handleChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {
-      data: { user },
-    } = await supabase.auth.getUser();
-    console.log(user?.id, "user");
     setStatus("loading");
+
     if (e.target.value.length > 0) {
       const { data: users, error } = await supabase
         .from("users")
         .select()
-        //.neq("id", user?.id)
         .ilike("full_name", "%" + e.target.value + "%");
+
       if (users) {
         setData(users as User[]);
         setStatus("success");
       } else if (error) {
         setStatus("error");
       }
-      console.log(users, error);
     } else {
       setData([]);
       setStatus("typing");
@@ -41,7 +37,7 @@ const Search = ({ onClose }: { onClose: () => void }) => {
   };
   return (
     <div className="h-[calc(100vh-100px)] w-[500px] bg-white rounded-xl">
-      <header className="flex flex-col p-6 border-b-2 w-full mb-3">
+      <header className="flex flex-col p-6 border-b-2 w-full mb-3 relative">
         <h2 className="text-start text-xl mb-4">Búsquedad</h2>
         <div className="flex w-full gap-2 border-2 p-2 items-center border-sm border-gray-500 rounded-2xl">
           <BiSearch />
@@ -54,6 +50,13 @@ const Search = ({ onClose }: { onClose: () => void }) => {
             onChange={handleChange}
           />
         </div>
+
+        <button
+          className=" cursor-pointer absolute right-2 top-2"
+          onClick={onClose}
+        >
+          <BiX />
+        </button>
       </header>
 
       <div className="overflow-auto p-6">

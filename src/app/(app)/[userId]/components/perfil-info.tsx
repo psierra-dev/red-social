@@ -17,6 +17,9 @@ const PerfilInfo = ({
   isFollowing: boolean;
   perfil_id: string;
 }) => {
+  console.log(isFollowing);
+  console.log(isOwner, "owner");
+  console.log(perfil_id, user?.id);
   return (
     <header className="flex justify-between md:justify-around bg-white p-3 rounded-md border-b-2">
       <div className="flex flex-col justify-end text-center">
@@ -34,12 +37,8 @@ const PerfilInfo = ({
           ) : null}
         </div>
         <p className="mt-2 text-center text-md">{user?.full_name}</p>
-        {user?.id !== perfil_id && (
-          <ButtonFollower
-            isFollowing={isFollowing}
-            followers_id={perfil_id}
-            owner_id={user?.id as string}
-          />
+        {!isOwner && (
+          <ButtonFollower isFollowing={isFollowing} followers_id={perfil_id} />
         )}
       </div>
       <div className="flex flex-col justify-end text-center">

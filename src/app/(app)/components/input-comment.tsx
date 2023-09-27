@@ -4,23 +4,27 @@ import CommetsService from "@/app/services/comment";
 import React, { useState } from "react";
 import { BiHappy } from "react-icons/bi";
 import CardComment from "./card-comment";
-import { User } from "@/app/types/user";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Comment } from "@/app/types/comments";
+import NotificationService from "@/app/services/notification";
+
 const InpuntComment = ({
   post_id,
-  user,
+  owner_id,
   onAdd,
+  type,
 }: {
   post_id: string | number;
-  user?: User;
   onAdd?: (comment: Comment) => void;
+  owner_id: string | null;
+  type: "onePost" | "listPost";
 }) => {
   const supabase = createClientComponentClient();
   const [text, setText] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [newComment, setNewComment] = useState<[] | Comment[]>([]);
   const commentService = new CommetsService(supabase);
+  const notiService = new NotificationService(supabase);
   const [status, setStatus] = useState<
     "typing" | "loading" | "success" | "error"
   >("typing");
@@ -32,8 +36,14 @@ const InpuntComment = ({
 
     if (error === null && data) {
       setStatus("success");
+      await notiService.add({
+        receptor_id: owner_id,
+        type: "comments",
+        post_id: post_id,
+      });
 
       if (onAdd) {
+        console.log("aquiiiiiii");
         onAdd(data as Comment);
         setText("");
         return;
@@ -46,7 +56,7 @@ const InpuntComment = ({
   };
 
   return (
-    <section className="">
+    <section className="w-full bg-white">
       {newComment.length > 0 &&
         newComment.map((c) => (
           <CardComment key={c.id} user={c.users} comment={c.content} />

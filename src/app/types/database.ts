@@ -1,3 +1,6 @@
+import { Likes } from "./likes"
+import { User } from "./user"
+
 export type Json =
   | string
   | number
@@ -14,8 +17,8 @@ export interface Database {
           content: string
           created_at: string
           id: number
-          post_id?: number | null
-          user_id?: string | null
+          post_id: number | null
+          user_id: string | null
         }
         Insert: {
           content?: string
@@ -191,6 +194,50 @@ export interface Database {
           }
         ]
       }
+      notifications: {
+        Row: {
+          created_at: string
+          emisor_id: string | null
+          id: number
+          read: boolean | null
+          receptor_id: string | null
+          type: string | null,
+          from: User,
+          to: User,
+          post_id: string | null,
+          show: boolean
+        }
+        Insert: {
+          created_at?: string
+          emisor_id?: string | null
+          id?: number
+          read?: boolean | null
+          receptor_id?: string | null
+          type?: string | null
+        }
+        Update: {
+          created_at?: string
+          emisor_id?: string | null
+          id?: number
+          read?: boolean | null
+          receptor_id?: string | null
+          type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_emisor_id_fkey"
+            columns: ["emisor_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notifications_receptor_id_fkey"
+            columns: ["receptor_id"]
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       posts: {
         Row: {
           content: string | null
@@ -198,9 +245,12 @@ export interface Database {
           created_at: string
           id: number
           image_url: string | null
-          user_id: string | null,
-          likes?: [{count: number}],
-          comments?: [{count: number}],
+          user_id: string | null
+          count_like: [{count: number}]
+          count_comment: [{count: number}]
+          likes: Likes[]
+          isLike: boolean
+          isOwner: boolean
         }
         Insert: {
           content?: string | null

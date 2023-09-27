@@ -8,6 +8,6 @@ type Count = {
 export type PostEnty = Database['public']['Tables']['posts']['Row']
 export type Post = PostEnty & {
     users: User,
-    likes: Count
-    comments: Count
+    likes?: Count
+    comments?: Count
 }

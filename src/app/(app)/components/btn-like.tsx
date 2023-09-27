@@ -1,4 +1,5 @@
 "use client";
+import NotificationService from "@/app/services/notification";
 import PostService from "@/app/services/post";
 import { Likes } from "@/app/types/likes";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
@@ -9,17 +10,18 @@ const BtnLike = ({
   likes,
   isLike,
   postId,
-  userId,
+  owner_id,
 }: {
   likes: Likes[];
   isLike: boolean;
   postId: number;
-  userId: string;
+  owner_id: string | null;
 }) => {
   const [allLikes, setAllLikes] = useState(likes.length);
   const [like, setLike] = useState(isLike);
   const supabase = createClientComponentClient();
   const postService = new PostService(supabase);
+  const notiService = new NotificationService(supabase);
   const handleLike = async () => {
     updateLike(like);
 
@@ -35,7 +37,13 @@ const BtnLike = ({
       const { data, error } = await postService.like_deslike(postId, "like");
       if (error) {
         updateLike(true);
+        console.log("likes");
       }
+      await notiService.add({
+        receptor_id: owner_id,
+        type: "likes",
+        post_id: postId,
+      });
     }
   };
 

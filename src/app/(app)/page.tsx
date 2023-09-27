@@ -13,7 +13,7 @@ const page = async () => {
   } = await supabase.auth.getSession();
 
   const postService = new PostService(supabase);
-  const { data: posts } = await postService.allPosts();
+  const { posts } = await postService.allPosts();
 
   if (session === null) return redirect("/login");
   return (

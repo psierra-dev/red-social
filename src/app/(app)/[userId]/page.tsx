@@ -23,30 +23,43 @@ const page = async ({ params }: { params: { userId: string } }) => {
   const postService = new PostService(supabase);
   const userService = new UserService(supabase);
   const followersService = new FollowersService(supabase);
-  const { data: user, error } = await userService.getUser(params.userId);
-  const { data: posts, error: errorPost } = await postService.getPostPerfil(
-    params.userId
-  );
+  const { data: user } = await userService.getUser(params.userId);
+  const { data: owner } = await userService.getUser();
+  const { posts } = await postService.getPostPerfil(params.userId);
 
   const { following } = await followersService.getFollwing(params.userId);
-  const { followed } = await followersService.getFollwed(params.userId);
+  const { followed } = await followersService.getFollwed(owner?.id);
+  const { followed: f } = await followersService.getFollwed(params.userId);
 
   return (
     <>
       {user && (
         <PerfilInfo
           following={following?.length as number}
-          followed={followed?.length as number}
+          followed={f?.length as number}
           user={user}
-          isOwner={user.id === params.userId}
+          isOwner={owner?.id === params.userId}
           isFollowing={
-            following?.some((f) => f.owner_id === user.id) ? true : false
+            followed?.some((f) => f.followers_id === params.userId)
+              ? true
+              : false
           }
           perfil_id={params.userId}
         />
       )}
 
-      {posts !== null && <ListPost posts={posts as Post[]} />}
+      {posts.length >= 1 ? (
+        <ListPost posts={posts as Post[]} />
+      ) : (
+        <section className="w-full h-full p-4 flex justify-center items-center">
+          <div className="p-2 flex flex-col justify-center items-center">
+            <h2 className="text-2xl font-bold">Comparte fotos</h2>
+            <p className=" text-xs font-thin">
+              Cuando compartas fotos, aparecerán en tu perfil
+            </p>
+          </div>
+        </section>
+      )}
     </>
   );
 };

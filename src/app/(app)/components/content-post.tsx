@@ -9,7 +9,7 @@ const ContentPost = ({ text }: { text: string }) => {
   return (
     <div className="p-2">
       <span className=" inline">
-        <span className="inline font-thin">
+        <span className="inline text-sm font-thin ">
           {show || !isLong ? text : shortText}
         </span>
         {!show && isLong && (

@@ -20,9 +20,6 @@ const Modal = ({
 
       <div className="fixed inset-0 z-50 w-screen overflow-y-auto">
         <div className="flex relative min-h-full justify-center  text-center items-center">
-          <button className="absolute top-10 right-10 z-11" onClick={onClose}>
-            <BiX />
-          </button>
           {children}
         </div>
       </div>

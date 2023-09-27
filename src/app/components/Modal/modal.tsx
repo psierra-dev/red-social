@@ -1,6 +1,7 @@
 "use client";
 import { useCallback, useRef, useEffect, MouseEventHandler } from "react";
 import { useRouter } from "next/navigation";
+import { BiX } from "react-icons/bi";
 
 export default function Modal({ children }: { children: React.ReactNode }) {
   const overlay = useRef(null);
@@ -47,9 +48,16 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     >
       <div
         ref={wrapper}
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[700px] h-full max-h-[600px] sm:w-10/12 md:w-8/12 lg:w-1/2 p-2"
+        className="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] max-h-[1000px] md:h-[90%] sm:w-10/12 md:w-8/12 lg:w-1/2 p-2 flex flex-col"
       >
-        {children}
+        <div className="p-2 w-full bg-white ">
+          <button onClick={() => onDismiss()} className="text-xl">
+            <BiX />
+          </button>
+        </div>
+        <div className="flex" style={{ height: "inherit" }}>
+          {children}
+        </div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import AuthService from "./auth";
 import { SupabaseClient } from "@supabase/supabase-js"
 import { Database } from "../types/database"
 import FollowersService from "./followers";
+import { Post } from "../types/post";
 
 
 
@@ -17,17 +18,51 @@ export default class PostService {
       this.followers = new FollowersService(client)
     }
     
+    private  post() {
+        return   this.supabase.from('posts')
+    }
+
+    private async sortPost(data: any) {
+        const user = await this.auth.getUser()
+        console.log(data, 'dataaaaaa')
+        if(data === null || data.length === 0) return []
+        const posts = data.length >= 1 ? data.map((p: any) => {
+            return {
+                ...p,
+                isLike: p.likes.some((p: any) => p.user_id  === user?.id),
+                isOwner: p.user_id === user?.id
+            }
+        })
+        : {
+            ...data,
+            isLike: data.likes.some((p: any) => p.user_id  === user?.id),
+            isOwner: data.user_id === user?.id
+        }
+
+        return posts
+    }
+    async onePost(id: string) {
+        const {data, error} = await this.post().select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)").eq('id', id).limit(1).single()
+        console.log(data, 'dataPost')
+        let post
+        if(data !== null){
+            post = await this.sortPost(data)
+        }
+        console.log(post)
+        return {post, error}
+    }
     async getPostPerfil(userId: string){
         const { data, error } = await this.supabase
         .from("posts")
-        .select("*, users(*), likes(count), comments(count)")
+        .select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)")
         .eq("user_id", userId)
         .order("created_at", { ascending: false })
-
-
-    return {data, error}
+        let posts = await this.sortPost(data)
+        
+        console.log(posts, 'posts quie')
+    return {posts, error}
     }
-    async allPosts(){
+    async allPosts() {
         const userAuth = await this.auth.getUser()
 
         const {followedId} = await this.followers.getFollwedId(userAuth?.id)
@@ -35,11 +70,11 @@ export default class PostService {
         if(followedId && followedId?.length > 0) {
             const { data, error } = await this.supabase
             .from("posts")
-            .select("*, users(*), comments(count), likes(count)")
-            .in("user_id", followedId)
+            .select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)")
+            .in("user_id", [...followedId, userAuth?.id])
             .order("created_at", { ascending: false })
-
-            return {data , error}
+            let posts = await this.sortPost(data)
+            return {posts , error}
         }
 
         return { data: [], error:null}

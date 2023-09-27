@@ -3,7 +3,7 @@
 import EmojiPicker from "@/app/components/emoji-picker";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useRef, useState } from "react";
-import { BiHappy, BiImage } from "react-icons/bi";
+import { BiHappy, BiImage, BiX } from "react-icons/bi";
 import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
 
@@ -83,8 +83,17 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
           </div>
         </div>
       )}
-      <h2 className="text-start text-2xl text-gray-700">Crear un post</h2>
-      <form onSubmit={handleSubmit}>
+      <button className="absolute right-2 top-2" onClick={onCloseModal}>
+        <BiX />
+      </button>
+
+      <form onSubmit={handleSubmit} className="relative">
+        <header className="flex w-full justify-between mt-2 mb-2">
+          <h2 className=" text-xl text-gray-700">Crear un post</h2>
+          <button type="submit" className=" text-base text-sky-600">
+            Crear
+          </button>
+        </header>
         <div className="flex flex-col  gap-6">
           <div className=" flex flex-col relative w-full">
             <textarea
@@ -151,13 +160,6 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
             />
           </div>
         </div>
-
-        <button
-          type="submit"
-          className="absolute top-4 right-4 text-lg text-sky-600"
-        >
-          Crear
-        </button>
       </form>
     </div>
   );
