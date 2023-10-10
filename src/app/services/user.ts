@@ -25,7 +25,7 @@ export default class UserService {
     async uploadImage(user_id: string, file: File) {
       const idImage = uuidv4();
       const { data } = await this.supabase.storage
-        .from("post")
+        .from("avatar")
         .upload(`${user_id}/${idImage}`, file);
 
       const {
