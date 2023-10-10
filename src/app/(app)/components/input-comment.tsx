@@ -56,7 +56,7 @@ const InpuntComment = ({
   };
 
   return (
-    <section className="w-full bg-white">
+    <section className="w-full bg-white dark:bg-black">
       {newComment.length > 0 &&
         newComment.map((c) => (
           <CardComment key={c.id} user={c.users} comment={c.content} />
@@ -67,7 +67,7 @@ const InpuntComment = ({
           <textarea
             value={text}
             name=""
-            className="text-xs font-thin grow hover:outline-none focus:outline-none resize-none  outline-none overflow-hidden"
+            className="text-xs font-thin grow dark:bg-black hover:outline-none focus:outline-none resize-none  outline-none overflow-hidden"
             autoComplete="false"
             autoCorrect="false"
             placeholder="Escriba un comentario aqui"
@@ -84,7 +84,7 @@ const InpuntComment = ({
           ) : (
             <div className="w-5 h-5 border-t-2 border-black border-solid border-opacity-50 rounded-full animate-spin"></div>
           )}
-          <div className="relative z-0 flex justify-center items-center">
+          <div className="relative z-0 hidden md:flex justify-center items-center">
             <button
               className=""
               onClick={(e) => {

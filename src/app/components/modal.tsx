@@ -11,7 +11,7 @@ const Modal = ({
 }) => {
   return (
     <div
-      className="relative z-40"
+      className="relative z-50"
       aria-labelledby="modal-title"
       role="dialog"
       aria-modal="true"

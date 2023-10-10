@@ -4,80 +4,53 @@ import EmojiPicker from "@/app/components/emoji-picker";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useRef, useState } from "react";
 import { BiHappy, BiImage, BiX } from "react-icons/bi";
-import { v4 as uuidv4 } from "uuid";
 import { useRouter } from "next/navigation";
+import useLoadImage from "@/app/hooks/useLoadImage";
+import PostService from "@/app/services/post";
+import Loader from "@/app/components/loader";
 
 const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const [text, setText] = useState("");
-  const [file, setFile] = useState<File | null>(null);
-  const [selectedImage, setSelectedImage] = useState("");
+  const { handleChangeFile, file, seletedImage } = useLoadImage("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [status, setStatus] = useState<
     "typing" | "loading" | "success" | "error"
   >("typing");
 
+  const inputImage = useRef<HTMLInputElement | null>(null);
+
   const router = useRouter();
 
   const supabase = createClientComponentClient();
-  const inputImage = useRef<HTMLInputElement | null>(null);
+  const postService = new PostService(supabase);
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     e.stopPropagation();
+
     setStatus("loading");
-    const {
-      data: { session },
-    } = await supabase.auth.getSession();
+
     if (file !== null) {
-      const idImage = uuidv4();
-      const { data, error } = await supabase.storage
-        .from("post")
-        .upload(`${session?.user.id}/${idImage}`, file);
-      console.log(data, error);
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("post").getPublicUrl(data?.path as string);
-
-      const { data: post, error: errorPost } = await supabase
-        .from("posts")
-        .insert({
-          content: text,
-          image_url: publicUrl,
-          user_id: session?.user.id,
-        });
-
+      const { data, error: errorPost } = await postService.add(text, file);
+      console.log(data, errorPost);
       if (errorPost === null) {
         router.refresh();
         onCloseModal();
         setStatus("success");
       }
 
-      console.log(post);
-      console.log(errorPost);
+      setStatus("error");
     }
-  };
 
-  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-    e.stopPropagation();
-    const file = e.target.files;
-    if (file && file[0]) {
-      console.log(file);
-      setFile(file[0]);
-      const reader = new FileReader();
-
-      reader.onload = (e) => {
-        setSelectedImage(e.target?.result as string);
-      };
-
-      reader.readAsDataURL(file[0]);
-    }
+    setStatus("error");
   };
 
   return (
-    <div className="relative bg-white p-6 w-full max-w-[600px] m-2 rounded-lg">
+    <div className="relative bg-white dark:bg-black p-6 w-full max-w-[600px] m-2 rounded-lg">
       {status === "loading" && (
         <div className="absolute top-0 bottom-0 right-0 left-0 bg-[#e4e4e4b4] z-20 flex items-center justify-center">
           <div className="flex flex-col items-center justify-center">
-            <div className="w-16 h-16 border-t-4 border-black border-solid border-opacity-50 rounded-full animate-spin"></div>
+            <Loader />
 
             <p className="text-[18px] font-bold text-black">Posteando</p>
           </div>
@@ -102,7 +75,7 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
               id=""
               onChange={(e) => setText(e.target.value)}
               placeholder="Escribe un pie de foto..."
-              className="w-full h-[100px]  p-3 mt-2 text-lg grow focus:outline-none hover:bg-gray-200"
+              className="w-full h-[100px]  p-3 mt-2 text-lg grow focus:outline-none hover:bg-gray-200 dark:bg-transparent dark:hover:bg-gray-900"
               autoFocus={true}
               style={{}}
             />
@@ -125,10 +98,10 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
             </div>
           </div>
           <div className="flex flex-col w-full  h-[380px] items-center justify-center">
-            {selectedImage ? (
+            {seletedImage ? (
               <div className="overflow-auto flex items-center justify-center h-[350px] w-full">
                 <img
-                  src={selectedImage}
+                  src={seletedImage}
                   alt="preview"
                   className="w-full h-auto max-h-[350px]"
                 />

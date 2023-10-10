@@ -24,9 +24,7 @@ const BtnNotification = ({
   const state = useContext(NotificationsContext);
   const pathname = usePathname();
   const userService = new UserService(supabase);
-  console.log(noti);
-  console.log(state.count);
-  console.log(user_id, "user_id");
+
   useEffect(() => {
     dispatch && noti && dispatch({ type: "SET_NOTIFICATIONS", payload: noti });
   }, [noti, dispatch]);
@@ -70,9 +68,6 @@ const BtnNotification = ({
         <div className=" text-3xl">
           <BiBell />
         </div>
-      </div>
-      <div className=" fixed bottom-[10%] right-2 bg-white border-2 p-2 border-gray-200">
-        notifications
       </div>
     </>
   );

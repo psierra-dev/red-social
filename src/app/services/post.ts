@@ -4,7 +4,7 @@ import { SupabaseClient } from "@supabase/supabase-js"
 import { Database } from "../types/database"
 import FollowersService from "./followers";
 import { Post } from "../types/post";
-
+import { v4 as uuidv4 } from "uuid";
 
 
 
@@ -79,9 +79,33 @@ export default class PostService {
 
         return { data: [], error:null}
     }
-    async add(){
+
+    async uploadImage(user_id: string, file: File) {
+        const idImage = uuidv4();
+        const { data } = await this.supabase.storage
+          .from("post")
+          .upload(`${user_id}/${idImage}`, file);
+  
+        const {
+          data: { publicUrl },
+        } = this.supabase.storage.from("post").getPublicUrl(data?.path as string);
+
+        return publicUrl
+    }
+
+    async add(content: string, file: File ){
         const userAuth = await this.auth.getUser()
-        const {data, error} = await this.supabase.from("users").select().eq('id', userAuth?.id as string).limit(1)
+
+        const image_url = await this.uploadImage(userAuth?.id as string, file);
+
+        const {data, error} = await this.supabase
+        .from("posts")
+        .insert({
+            content, 
+            user_id: userAuth?.id, 
+            image_url
+        })
+            .eq('id', userAuth?.id as string);
         
         return {data, error}
     }

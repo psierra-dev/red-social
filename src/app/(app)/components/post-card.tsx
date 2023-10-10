@@ -21,12 +21,14 @@ const PostCard = ({
     <div className="flex flex-col gap-3 p-2 md:p-4 rounded-xl w-full shadow-lg">
       <header className="flex justify-between w-full">
         <div className="flex gap-2">
-          <img
-            key={post.users?.avatar_url as string}
-            src={post.users?.avatar_url as string}
-            alt=""
-            className="w-[50px] h-[50px] rounded-full"
-          />
+          <Link href={`/${post.user_id}`}>
+            <img
+              key={post.users?.avatar_url as string}
+              src={post.users?.avatar_url as string}
+              alt=""
+              className="w-[50px] h-[50px] rounded-full cursor-pointer"
+            />
+          </Link>
           <div className=" flex gap-2 ">
             <p className="text-xs font-bold">{post.users?.full_name}</p>
             <p className=" text-xs font-light">{time}</p>

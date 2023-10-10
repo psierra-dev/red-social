@@ -36,7 +36,7 @@ const Search = ({ onClose }: { onClose: () => void }) => {
     }
   };
   return (
-    <div className="h-[calc(100vh-100px)] w-[500px] bg-white rounded-xl">
+    <div className="h-[calc(100vh-100px)] w-[500px] bg-white dark:bg-black rounded-xl">
       <header className="flex flex-col p-6 border-b-2 w-full mb-3 relative">
         <h2 className="text-start text-xl mb-4">Búsquedad</h2>
         <div className="flex w-full gap-2 border-2 p-2 items-center border-sm border-gray-500 rounded-2xl">
@@ -45,7 +45,7 @@ const Search = ({ onClose }: { onClose: () => void }) => {
             type="text"
             name=""
             id=""
-            className="w-full border-none text-[16px] focus:outline-none"
+            className="w-full border-none text-[16px] focus:outline-none text-black dark:text-white dark:bg-transparent"
             placeholder="Buscar"
             onChange={handleChange}
           />

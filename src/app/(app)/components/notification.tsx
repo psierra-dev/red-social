@@ -34,7 +34,7 @@ const Notification = () => {
     getNotifications();
   }, []);
   return (
-    <div className=" w-full">
+    <div className=" w-auto overflow-y-auto bg-white dark:bg-black min-h-screen">
       <header className="p-2">
         <h2 className=" text-lg font-bold">Notificaciones</h2>
       </header>
@@ -57,7 +57,7 @@ const CardNotification = ({ data }: { data: TNotification }) => {
       <div
         key={data.id}
         className={`${
-          data.read ? "" : " bg-slate-200"
+          data.read ? "" : " bg-slate-200 dark:bg-gray-800"
         } flex gap-2 p-2  cursor-pointer`}
         onClick={() => {
           /*if (data.type === "comments" || data.type === "likes") {

@@ -4,7 +4,7 @@ import BtnBack from "../components/btn-back";
 export const dynamic = "force-dynamic";
 const page = () => {
   return (
-    <div className=" w-screen h-screen fixed bg-white z-50">
+    <div className="flex top-0 bottom-0 flex-col w-screen fixed bg-white dark:bg-black z-50">
       <header className="name">
         <BtnBack />
       </header>

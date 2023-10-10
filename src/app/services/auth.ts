@@ -6,8 +6,14 @@ export default class AuthService {
         this.supabase = client
     }
 
+    async signUp(data: any) {
+        
+    }
+
     async getUser() {
         const {data: {user}, error} = await this.supabase.auth.getUser()
         return user
-    }   
+    }
+    
+    
 }

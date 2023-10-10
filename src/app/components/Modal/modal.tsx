@@ -1,21 +1,40 @@
 "use client";
 import { useCallback, useRef, useEffect, MouseEventHandler } from "react";
 import { useRouter } from "next/navigation";
-import { BiX } from "react-icons/bi";
 
-export default function Modal({ children }: { children: React.ReactNode }) {
+export default function Modal({
+  children,
+  type,
+  onClose,
+}: {
+  children: React.ReactNode;
+  type: "route" | "state";
+  onClose?: (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+}) {
   const overlay = useRef(null);
   const wrapper = useRef(null);
   const router = useRouter();
 
   const onDismiss = useCallback(() => {
+    if (type === "state" && onClose) {
+      console.log("aqui");
+
+      return;
+    }
     router.back();
-  }, [router]);
+  }, [router, onClose, type]);
 
   const onClick: MouseEventHandler = useCallback(
     (e) => {
-      if (e.target === overlay.current || e.target === wrapper.current) {
+      if (
+        (e.target === overlay.current || e.target === wrapper.current) &&
+        type === "route"
+      ) {
         if (onDismiss) onDismiss();
+      }
+
+      if (onClose) {
+        onClose(e as React.MouseEvent<HTMLButtonElement, MouseEvent>);
       }
     },
     [onDismiss, overlay, wrapper]
@@ -48,16 +67,9 @@ export default function Modal({ children }: { children: React.ReactNode }) {
     >
       <div
         ref={wrapper}
-        className="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[600px] max-h-[600px]  md:max-h-[1000px] md:h-[90%] sm:w-10/12 md:w-8/12 lg:w-1/2 p-2 flex flex-col"
+        className="absolute  top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 "
       >
-        <div className="p-2 w-full bg-white ">
-          <button onClick={() => onDismiss()} className="text-xl">
-            <BiX />
-          </button>
-        </div>
-        <div className="flex overflow-y-auto" style={{ height: "inherit" }}>
-          {children}
-        </div>
+        {children}
       </div>
     </div>
   );

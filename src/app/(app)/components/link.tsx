@@ -14,8 +14,7 @@ const LinkCustom = ({
   return (
     <Link href={href}>
       <div
-        className={`p-2 flex items-center justify-center hover:bg-[#80808056] rounded-md ${
-          pathname === href ? "text-primary" : "text-black"
+        className={`p-2 flex items-center justify-center hover:bg-[#80808056] rounded-md"
         }`}
       >
         {children}

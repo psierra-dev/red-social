@@ -4,7 +4,7 @@ import CardComment from "./card-comment";
 
 const ListComment = ({ comments }: { comments: Comment[] }) => {
   return (
-    <div className="bg-white flex flex-col w-full h-auto p-5">
+    <div className="bg-white dark:bg-black flex flex-col w-full h-auto p-5">
       <div className=" grow ">
         {comments?.map(({ content, users, id, created_at }) => (
           <CardComment

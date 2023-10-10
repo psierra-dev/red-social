@@ -283,6 +283,7 @@ export interface Database {
           created_at: string
           full_name: string
           id: string
+          user_name: string
         }
         Insert: {
           avatar_url?: string | null

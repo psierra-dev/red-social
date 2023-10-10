@@ -2,6 +2,7 @@ import InpuntComment from "@/app/(app)/components/input-comment";
 import ListComment from "@/app/(app)/components/list-comment";
 import PostCard from "@/app/(app)/components/post-card";
 import PostClient from "@/app/(app)/components/post-client";
+import WrapperModalPost from "@/app/(app)/components/wrapper-modal";
 import Modal from "@/app/components/Modal/modal";
 import CommetsService from "@/app/services/comment";
 import PostService from "@/app/services/post";
@@ -23,8 +24,6 @@ export default async function PhotoModal({
   console.log(postId, "page cid");
 
   return (
-    <Modal>
-      <PostClient post={post as Post} comments={comments as Comment[]} />
-    </Modal>
+    <WrapperModalPost comments={comments as Comment[]} post={post as Post} />
   );
 }

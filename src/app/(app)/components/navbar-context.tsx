@@ -4,7 +4,7 @@ import NavBar from "./navbar";
 import NavbarPhone from "./navbar-phone";
 import { NotificationsProvider } from "@/app/store/NotificationProvider";
 
-const NavbarContext = ({ user, count }: { user: User[]; count: number }) => {
+const NavbarContext = ({ user, count }: { user: User; count: number }) => {
   return (
     <>
       <NotificationsProvider>

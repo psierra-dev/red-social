@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter, Salsa, Unbounded } from "next/font/google";
+import DarkTheme from "./(app)/components/dark-theme";
 
 const inter = Inter({ subsets: ["latin"] });
 const salsa = Salsa({ weight: "400", subsets: ["latin"] });
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
 export default function RootLayout(props: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <DarkTheme />
       <body className={unbounded.className}>{props.children}</body>
     </html>
   );

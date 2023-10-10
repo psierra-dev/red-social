@@ -1,7 +1,7 @@
-import React from "react";
 import FormAuth from "@/app/(app)/components/form-auth";
+import React from "react";
 
-const LoginPage = () => {
+const page = () => {
   return (
     <div className="flex justify-center items-center w-screen h-screen">
       <FormAuth />
@@ -9,4 +9,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default page;

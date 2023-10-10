@@ -19,13 +19,13 @@ const PostClient = ({
     setAllComments([comment, ...allComments]);
   };
   return (
-    <div className="flex flex-col bg-white grow ">
+    <div className="flex flex-col bg-white dark:bg-black grow ">
       <div className="grow overflow-auto">
         <PostCard post={post as Post} comment={false} />
         <ListComment comments={allComments} />
       </div>
 
-      <div className="w-full flex items-center p-10">
+      <div className="w-full flex items-center p-2 md:p-5">
         <InpuntComment
           post_id={post.id}
           owner_id={post?.user_id!}
