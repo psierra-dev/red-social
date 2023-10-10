@@ -2,8 +2,8 @@
 import useChangeTheme from "@/app/hooks/useChangeTheme";
 
 const BtnTema = () => {
-  const { handleChange, theme } = useChangeTheme();
-  const isDark = theme === "dark" ? true : false;
+  const { handleChange, themeChange } = useChangeTheme();
+  const isDark = themeChange === "dark" ? true : false;
 
   return (
     <div

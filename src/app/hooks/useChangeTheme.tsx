@@ -1,36 +1,43 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const useChangeTheme = () => {
-  const [theme, setTheme] = useState(() => {
-    let theme = window.localStorage.getItem("theme");
+  const [themeChange, setThemeChange] = useState("dark");
 
+  useEffect(() => {
+    let theme = window.localStorage.getItem("theme");
+    console.log(theme, "theme");
     if (theme === "light") {
-      return "light";
+      setThemeChange("light");
     } else if (
       theme === "dark" ||
       window.matchMedia("(prefers-color-scheme: dark)").matches
     ) {
-      return "dark";
+      setThemeChange("dark");
     } else {
-      return "light";
+      theme = "light";
     }
-  });
+    if (theme === "dark") {
+      window.document.querySelector("html")?.classList.add("dark");
+    } else {
+      window.document.querySelector("html")?.classList.remove("dark");
+    }
+  }, []);
 
   const handleChange = () => {
-    if (theme !== "dark") {
-      setTheme("dark");
+    if (themeChange !== "dark") {
+      setThemeChange("dark");
       window.localStorage.setItem("theme", "dark");
       window.document.querySelector("html")?.classList.add("dark");
     } else {
-      setTheme("light");
+      setThemeChange("light");
       window.localStorage.removeItem("theme");
       window.localStorage.setItem("theme", "light");
       window.document.querySelector("html")?.classList.remove("dark");
     }
   };
 
-  return { handleChange, theme, setTheme };
+  return { handleChange, themeChange };
 };
 
 export default useChangeTheme;
