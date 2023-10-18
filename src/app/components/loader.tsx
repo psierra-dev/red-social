@@ -14,7 +14,7 @@ const Loader = ({
 }) => {
   return (
     <div
-      className={`w-${w} h-${h} border-t-${size} border-${color} border-solid border-opacity-50 rounded-full animate-spin`}
+      className={`w-${w} h-${h} border-t-${size} border-${color} dark:border-white border-solid border-opacity-50 rounded-full animate-spin`}
     ></div>
   );
 };

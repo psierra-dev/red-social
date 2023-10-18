@@ -11,6 +11,7 @@ import { BiX } from "react-icons/bi";
 import * as z from "zod";
 import Loader from "@/app/components/loader";
 import useLoadImage from "@/app/hooks/useLoadImage";
+import Image from "next/image";
 
 type FormData = z.infer<typeof formEditUserSchema>;
 
@@ -82,7 +83,9 @@ const FormEdit = ({ user }: { user: User }) => {
         className="flex flex-col gap-4 m-3 mt-6"
       >
         <div>
-          <img
+          <Image
+            width={50}
+            height={50}
             src={seletedImage}
             alt=""
             className="w-[40px] h-[40px] rounded-full"

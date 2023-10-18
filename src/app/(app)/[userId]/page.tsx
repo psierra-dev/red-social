@@ -25,11 +25,11 @@ const page = async ({ params }: { params: { userId: string } }) => {
   const followersService = new FollowersService(supabase);
   const { data: user } = await userService.getUser(params.userId);
   const { data: owner } = await userService.getUser();
-  const { posts } = await postService.getPostPerfil(params.userId);
+  const { posts } = await postService.getPostPerfil(user?.id as string);
 
-  const { following } = await followersService.getFollwing(params.userId);
+  const { following } = await followersService.getFollwing(user?.id as string);
   const { followed } = await followersService.getFollwed(owner?.id);
-  const { followed: f } = await followersService.getFollwed(params.userId);
+  const { followed: f } = await followersService.getFollwed(user?.id as string);
 
   return (
     <>
@@ -38,13 +38,11 @@ const page = async ({ params }: { params: { userId: string } }) => {
           following={following?.length as number}
           followed={f?.length as number}
           user={user}
-          isOwner={owner?.id === params.userId}
+          isOwner={owner?.id === user.id}
           isFollowing={
-            followed?.some((f) => f.followers_id === params.userId)
-              ? true
-              : false
+            followed?.some((f) => f.followers_id === user.id) ? true : false
           }
-          perfil_id={params.userId}
+          perfil_id={user.id}
         />
       )}
 

@@ -7,6 +7,7 @@ import { MdSettings } from "react-icons/md";
 import Modal from "@/app/components/Modal/modal";
 import OptionMenu from "../../components/option-menu";
 import { BiX } from "react-icons/bi";
+import Image from "next/image";
 const PerfilInfo = ({
   user,
   following,
@@ -25,11 +26,6 @@ const PerfilInfo = ({
   const router = useRouter();
   const [setting, setSetting] = useState(false);
 
-  console.log(setting, "setting");
-
-  const prueba = () => () => "p";
-
-  const r = prueba();
   return (
     <section className="flex justify-between md:justify-around bg-transparent p-3 rounded-md border-b-2">
       <div className="flex flex-col justify-end text-center pb-10">
@@ -39,9 +35,11 @@ const PerfilInfo = ({
       <div className="flex flex-col gap-1 items-center">
         <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px] ">
           {user?.avatar_url ? (
-            <img
+            <Image
+              width={100}
+              height={100}
               src={user.avatar_url}
-              alt=""
+              alt="avatar"
               className="w-full h-full rounded-full"
             />
           ) : null}

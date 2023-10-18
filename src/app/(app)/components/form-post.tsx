@@ -62,7 +62,9 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
 
       <form onSubmit={handleSubmit} className="relative">
         <header className="flex w-full justify-between mt-2 mb-2">
-          <h2 className=" text-xl text-gray-700">Crear un post</h2>
+          <h2 className=" text-xl text-gray-700 dark:text-white">
+            Crear un post
+          </h2>
           <button type="submit" className=" text-base text-sky-600">
             Crear
           </button>

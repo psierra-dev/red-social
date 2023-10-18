@@ -42,6 +42,7 @@ export default class PostService {
         return posts
     }
     async onePost(id: string) {
+        
         const {data, error} = await this.post().select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)").eq('id', id).limit(1).single()
         console.log(data, 'dataPost')
         let post
@@ -52,6 +53,7 @@ export default class PostService {
         return {post, error}
     }
     async getPostPerfil(userId: string){
+        
         const { data, error } = await this.supabase
         .from("posts")
         .select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)")

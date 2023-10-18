@@ -24,7 +24,7 @@ const OptionPost = ({ postId }: { postId: number }) => {
     }
   };
   return (
-    <div className="relative">
+    <div className="relative dark:bg-black">
       <button
         className=" items-start text-2xl"
         onClick={() => setOption(!option)}
@@ -32,7 +32,7 @@ const OptionPost = ({ postId }: { postId: number }) => {
         <BiDotsHorizontalRounded />
       </button>
       {option && (
-        <div className="bg-white w-[300px] p-3 top-10 absolute z-10 right-2 rounded-xl shadow-t-xl">
+        <div className="bg-white dark:bg-black w-[300px] p-3 top-10 absolute z-10 right-2 rounded-xl shadow-t-xl">
           <ul>
             <li>
               <div className="flex items-center gap-2 p-2 text-sm cursor-pointer hover:bg-[#3838383b]">
@@ -62,7 +62,7 @@ const OptionPost = ({ postId }: { postId: number }) => {
 
       {modal && (
         <Modal onClose={() => setModal(false)}>
-          <div className="min-w-[400px] bg-white rounded-xl">
+          <div className="min-w-[400px] bg-white dark:bg-black rounded-xl">
             <header className=" border-b-2">
               <h3 className="text-center m-2">¿Quieres borrar este post?</h3>
             </header>

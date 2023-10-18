@@ -8,6 +8,7 @@ import BtnNotification from "./btn-notification";
 import Notification from "./notification";
 import { User } from "@/app/types/user";
 import BtnMenu from "./btn-menu";
+import Image from "next/image";
 const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
   const [showNoti, setNotiShow] = useState(false);
 
@@ -39,13 +40,13 @@ const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
                 <li className="text-3xl">
                   <Suspense fallback={<div>loading...</div>}>
                     {user ? (
-                      <LinkCustom href={"/" + user.id}>
-                        <img
+                      <LinkCustom href={"/" + user.user_name}>
+                        <Image
                           className="inline-block h-9 w-9 rounded-full ring-2 ring-white"
                           src={user?.avatar_url ? user.avatar_url : ""}
                           alt=""
-                          width={6}
-                          height={6}
+                          width={50}
+                          height={50}
                         />
                       </LinkCustom>
                     ) : null}

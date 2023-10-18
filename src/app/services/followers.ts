@@ -24,6 +24,14 @@ export default class FollowersService {
 
         return {data, error}
     }
+
+    async delete(followers_id: string) {
+        const user = await this.auth.getUser()
+
+       const {data, error} = await this.supabase.from('followers').delete().eq('owner_id', user?.id as string).eq("followers_id", followers_id)
+
+        return {data, error}
+    }
     async getFollwing(user_id?: string){
         const { data: following, error } = await this.supabase
         .from("followers")

@@ -12,11 +12,19 @@ export default class UserService {
       this.supabase = client;
       this.auth = new AuthService(client)
     }
+
     
-    async getUser(user_id?: string){
-        const userAuth = await this.auth.getUser()
-        const id = user_id || userAuth?.id
-        const { data, error } = await this.supabase.from("users").select().eq('id', id as string).limit(1).single()
+    async findUserName(user: string) {
+      const { data , error } = await this.supabase.from("users").select('user_name').eq('user_name', user).limit(1).single()
+
+      const user_name = data?.user_name
+      return {user_name , error}
+    }
+    
+    async getUser(user_name?: string){
+        const userAuth = await this.auth.getUser();
+        const search = user_name ? {key: 'user_name', value: user_name} : {key: 'id',value:userAuth?.id as string};
+        const { data, error } = await this.supabase.from("users").select().eq(search.key, search.value).limit(1).single()
         
         return {data, error}
     }

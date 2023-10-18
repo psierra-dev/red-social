@@ -2,6 +2,7 @@
 import Skeleton from "@/app/components/skeleton";
 import { User } from "@/app/types/user";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BiSearch, BiX } from "react-icons/bi";
@@ -36,7 +37,7 @@ const Search = ({ onClose }: { onClose: () => void }) => {
     }
   };
   return (
-    <div className="h-[calc(100vh-100px)] w-[500px] bg-white dark:bg-black rounded-xl">
+    <div className="h-[calc(100vh-100px)] flex flex-col w-[500px] bg-white dark:bg-black rounded-xl">
       <header className="flex flex-col p-6 border-b-2 w-full mb-3 relative">
         <h2 className="text-start text-xl mb-4">Búsquedad</h2>
         <div className="flex w-full gap-2 border-2 p-2 items-center border-sm border-gray-500 rounded-2xl">
@@ -67,17 +68,25 @@ const Search = ({ onClose }: { onClose: () => void }) => {
               <div
                 key={e.id}
                 onClick={() => {
-                  router.push("/" + e.id);
+                  router.push("/" + e.user_name);
                   router.refresh();
                   onClose();
                 }}
-                className="flex gap-4 border-b-2 p-2"
+                className="flex gap-4 border-b-2 p-2 hover:bg-gray-800 cursor-pointer"
               >
-                <img
+                <Image
+                  width={50}
+                  height={50}
+                  alt="avatar"
                   src={e.avatar_url as string}
                   className="w-10 h-10 rounded-4xl"
                 />
-                <p className="text-sm">{e.full_name}</p>
+                <div className=" flex flex-col text-left">
+                  <p className="text-xs text-bold md:text-sm ">{e.user_name}</p>
+                  <p className="text-xs text-thin md:text-sm text-gray-400">
+                    {e.full_name}
+                  </p>
+                </div>
               </div>
             ))
           : null}

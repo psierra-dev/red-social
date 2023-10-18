@@ -10,8 +10,8 @@ const code = requestUrl.searchParams.get("code")
 
 if(code !== null){
     const supabase = createRouteHandlerClient({cookies})
-    await supabase.auth.exchangeCodeForSession(code)
+    
+    await supabase.auth.exchangeCodeForSession(code);
 }
-
-return NextResponse.redirect(new URL('/', request.url))
+    return NextResponse.redirect(new URL('/single_sign_on', request.url))
 }

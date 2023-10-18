@@ -7,7 +7,7 @@ const BtnMenu = () => {
   const [showOption, setShowOption] = useState(false);
   return (
     <div className="hidden md:block md:relative">
-      {showOption && <OptionMenu style="absolute left-[30px]" />}
+      {showOption && <OptionMenu style="absolute left-[4px] top-[-111px]" />}
       <button className=" text-3xl" onClick={() => setShowOption(!showOption)}>
         <BiMenu />
       </button>

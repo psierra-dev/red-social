@@ -83,7 +83,7 @@ const FormAuth = () => {
   };
 
   return (
-    <div className="flex flex-col backdrop-blur-sm bg-white/20 border-2 rounded-xl  w-full max-w-[450px] p-6 md:p-10 m-2 gap-4">
+    <div className="flex flex-col  border-2 rounded-xl  w-full max-w-[450px] p-6 md:p-10 m-2 gap-4">
       <div className=" w-full">
         <h2 className="text-lg mb-6 text-center">
           {pathname === "/login" ? "Iniciar sesion" : "Crear cuenta"}
@@ -117,7 +117,7 @@ const FormAuth = () => {
               register={register}
               required
               error={errors.fullName}
-              watch={watch}
+              text={watch("fullName")!}
             />
             <Input
               type="text"
@@ -126,7 +126,7 @@ const FormAuth = () => {
               register={register}
               required
               error={errors.usuario}
-              watch={watch}
+              text={watch("usuario")!}
             />
           </>
         )}
@@ -137,7 +137,7 @@ const FormAuth = () => {
           register={register}
           required
           error={errors.email}
-          watch={watch}
+          text={watch("email")!}
         />
         <Input
           type="password"
@@ -146,7 +146,7 @@ const FormAuth = () => {
           register={register}
           required
           error={errors.password}
-          watch={watch}
+          text={watch("password")!}
         />
 
         <div className="w-full">

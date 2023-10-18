@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 const useLoadImage = (initialState: string) => {
-  const [seletedImage, setSelectedImage] = useState<string>(initialState);
+  const [seletedImage, setSelectedImage] = useState<string>(initialState || "");
   const [file, setFile] = useState<File | null>(null);
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
