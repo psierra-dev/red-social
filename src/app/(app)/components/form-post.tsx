@@ -9,10 +9,11 @@ import useLoadImage from "@/app/hooks/useLoadImage";
 import PostService from "@/app/services/post";
 import Loader from "@/app/components/loader";
 import { MdOutlineCameraAlt } from "react-icons/md";
+import Image from "next/image";
 
 const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const [text, setText] = useState("");
-  const { handleChangeFile, file, seletedImage } = useLoadImage("");
+  const { handleChangeFile, file, selectedImage } = useLoadImage("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [status, setStatus] = useState<
     "typing" | "loading" | "success" | "error"
@@ -29,20 +30,18 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
     e.preventDefault();
     e.stopPropagation();
 
-    //setStatus("loading");
+    setStatus("loading");
 
     if (file !== null) {
-      /*const { data, error: errorPost } = await postService.add(text, file);
-      console.log(data, errorPost);
+      const { error: errorPost } = await postService.add(text, file);
       if (errorPost === null) {
         router.refresh();
         onCloseModal();
         setStatus("success");
-      }*/
-      console.log("file");
-      //setStatus("error");
+      } else {
+        setStatus("error");
+      }
     } else {
-      console.log("error");
       setStatus("error");
     }
   };
@@ -103,13 +102,15 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
             </div>
           </div>
           <div className="flex flex-1 flex-col w-full ">
-            {seletedImage ? (
+            {selectedImage ? (
               <div className="flex flex-1 justify-center w-full ">
                 <div>
-                  <img
-                    src={seletedImage}
+                  <Image
+                    src={selectedImage}
                     alt="preview"
                     className=" max-w-[270px] rounded-lg"
+                    width={300}
+                    height={400}
                   />
                 </div>
               </div>
