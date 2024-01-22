@@ -5,15 +5,15 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import React from "react";
-
+export const dynamic = "force-dynamic";
 const page = async () => {
   const supabase = createServerComponentClient<Database>({ cookies });
 
   const userService = new UserService(supabase);
 
   const { data: user, error } = await userService.getUser();
-  console.log(user, error, "data, single-sign-on");
-  if (user === null) {
+
+  if (user === null || error) {
     redirect("/login");
   }
 
