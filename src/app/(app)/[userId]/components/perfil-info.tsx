@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { MdSettings } from "react-icons/md";
 import Modal from "@/app/components/Modal/modal";
 import OptionMenu from "../../components/option-menu";
-import { BiX } from "react-icons/bi";
+import { BiUserCircle, BiX } from "react-icons/bi";
 import Image from "next/image";
 const PerfilInfo = ({
   user,
@@ -42,7 +42,9 @@ const PerfilInfo = ({
               alt="avatar"
               className="w-full h-full rounded-full"
             />
-          ) : null}
+          ) : (
+            <BiUserCircle className="h-full w-full" />
+          )}
         </div>
         <p className="mt-2 text-center text-md">{user?.full_name}</p>
 

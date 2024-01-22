@@ -7,23 +7,21 @@ import {
 } from "@/app/store/NotificationProvider";
 import { TNotification } from "@/app/types/notification";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useContext } from "react";
-//import { cookies } from "next/headers";
-//import NotificationService from "@/app/services/notification";
 const Notification = () => {
   const supabase = createClientComponentClient();
   const notiService = new NotificationService(supabase);
   const [notifications, setNotifications] = useState<TNotification[] | []>([]);
   //const router = useRouter()
-  const data = useContext(NotificationsContext);
   const dispatch = useContext(NotificationsDispatchContext);
-  console.log(data);
 
   useEffect(() => {
     dispatch && dispatch({ type: "DELETE_NOTIFICATION", payload: 0 });
   }, []);
+
   useEffect(() => {
     const getNotifications = async () => {
       const { data, error } = await notiService.getAll();
@@ -34,12 +32,12 @@ const Notification = () => {
     getNotifications();
   }, []);
   return (
-    <div className=" w-auto overflow-y-auto bg-white dark:bg-black min-h-screen">
+    <div className=" w-full overflow-y-auto bg-white dark:bg-black min-h-screen">
       <header className="p-2">
-        <h2 className=" text-lg font-bold">Notificaciones</h2>
+        <h4 className=" text-md font-bold">Notificaciones</h4>
       </header>
 
-      <div>
+      <div className="flex flex-col gap-2">
         {notifications.map((e) => (
           <CardNotification key={e.id} data={e} />
         ))}
@@ -57,8 +55,8 @@ const CardNotification = ({ data }: { data: TNotification }) => {
       <div
         key={data.id}
         className={`${
-          data.read ? "" : " bg-slate-200 dark:bg-gray-800"
-        } flex gap-2 p-2  cursor-pointer`}
+          data.read ? "" : " "
+        } flex gap-2 p-2  cursor-pointer hover:scale-100`}
         onClick={() => {
           /*if (data.type === "comments" || data.type === "likes") {
           router.push(`/c/${data.post_id}`);
@@ -66,8 +64,10 @@ const CardNotification = ({ data }: { data: TNotification }) => {
         }}
       >
         <div className={``}>
-          <img
-            src={data.from.avatar_url!}
+          <Image
+            src={data?.from?.avatar_url!}
+            width={15}
+            height={15}
             alt="a"
             className="w-8 h-8 rounded-full"
           />

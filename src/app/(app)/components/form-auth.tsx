@@ -60,7 +60,7 @@ const FormAuth = () => {
         router.push("/login");
         return;
       }
-
+      console.log(error, "error");
       setStatu("error");
       setErrorStatus({ code: error.status!, message: error.message });
 
@@ -74,7 +74,7 @@ const FormAuth = () => {
     console.log(data, error);
     if (error === null) {
       setStatu("success");
-      router.push("/");
+      router.push("/single_sign_on");
       return;
     }
 
@@ -83,7 +83,7 @@ const FormAuth = () => {
   };
 
   return (
-    <div className="flex flex-col  border-2 rounded-xl  w-full max-w-[450px] p-6 md:p-10 m-2 gap-4">
+    <div className="flex flex-col   rounded-xl  w-full max-w-[450px] p-6 md:p-10 m-2 gap-4">
       <div className=" w-full">
         <h2 className="text-lg mb-6 text-center">
           {pathname === "/login" ? "Iniciar sesion" : "Crear cuenta"}
@@ -96,7 +96,7 @@ const FormAuth = () => {
           </div>
 
           <div className=" relative flex justify-center text-sm">
-            <span className="bg-scale-200 px-2 text-sm text-foreground p-2 bg-white">
+            <span className="bg-scale-200 px-2 text-sm text-foreground p-2">
               o
             </span>
           </div>
@@ -105,7 +105,7 @@ const FormAuth = () => {
       <form
         action=""
         method="POST"
-        className="flex flex-col gap-4"
+        className="flex flex-col gap-7"
         onSubmit={handleSubmit(onSubmit)}
       >
         {pathname !== "/login" && (

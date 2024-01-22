@@ -5,9 +5,11 @@ const AuthButton = () => {
   const supabase = createClientComponentClient();
   console.log(process.env.NEXT_PUBLIC_URL_APP);
   const handleSignIn = async () => {
+    
     await supabase.auth.signInWithOAuth({
       provider: "google",
       options: {
+        
         redirectTo: `${process.env.NEXT_PUBLIC_URL_APP}auth/callback`,
       },
     });

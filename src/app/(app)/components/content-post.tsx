@@ -5,7 +5,7 @@ const ContentPost = ({ text }: { text: string }) => {
   const [show, setShow] = useState(false);
   const shortText = text.slice(0, 100);
   const isLong = text.length > 99;
-  console.log(isLong);
+
   return (
     <div className="p-2">
       <span className=" inline">

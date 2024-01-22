@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, Suspense } from "react";
-import { BiHomeAlt } from "react-icons/bi";
+import { BiHomeAlt, BiUserCircle } from "react-icons/bi";
 import LinkCustom from "./link";
 import ButtonModal from "./btn-modal";
 import ButtonSearch from "./btn-search";
@@ -41,13 +41,19 @@ const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
                   <Suspense fallback={<div>loading...</div>}>
                     {user ? (
                       <LinkCustom href={"/" + user.user_name}>
-                        <Image
-                          className="inline-block h-9 w-9 rounded-full ring-2 ring-white"
-                          src={user?.avatar_url ? user.avatar_url : ""}
-                          alt=""
-                          width={50}
-                          height={50}
-                        />
+                        {user.avatar_url ? (
+                          <Image
+                            className="inline-block h-9 w-9 rounded-full ring-2 ring-white"
+                            src={user?.avatar_url ? user.avatar_url : ""}
+                            alt=""
+                            width={50}
+                            height={50}
+                          />
+                        ) : (
+                          <div className="h-9 w-9 rounded-full">
+                            <BiUserCircle className="h-full w-full" />
+                          </div>
+                        )}
                       </LinkCustom>
                     ) : null}
                   </Suspense>
@@ -59,7 +65,7 @@ const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
           </div>
           {showNoti && (
             <div className="hidden md:block absolute left-[70px] transition ease-in-out delay-150 translate-x-[0%]">
-              <div className="min-w-[340px]">
+              <div className="min-w-[340px] px-2">
                 <Notification />
               </div>
             </div>

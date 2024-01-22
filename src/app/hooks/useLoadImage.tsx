@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 
 const useLoadImage = (initialState: string) => {
-  const [seletedImage, setSelectedImage] = useState<string>(initialState || "");
+  const [selectedImage, setSelectedImage] = useState<string>(initialState || "");
   const [file, setFile] = useState<File | null>(null);
 
   const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +21,7 @@ const useLoadImage = (initialState: string) => {
       reader.readAsDataURL(file[0]);
     }
   };
-  return { handleChangeFile, file, seletedImage };
+  return { handleChangeFile, file, selectedImage };
 };
 
 export default useLoadImage;

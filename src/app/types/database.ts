@@ -284,18 +284,21 @@ export interface Database {
           full_name: string
           id: string
           user_name: string
+          is_completed: boolean
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
           full_name: string
           id: string
+          is_completed: boolean
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
           full_name?: string
           id?: string
+          is_completed: boolean
         }
         Relationships: [
           {

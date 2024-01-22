@@ -77,7 +77,7 @@ const InpuntComment = ({
           {status !== "loading" ? (
             <button
               type="submit"
-              className=" text-sm font-medium text-sky-600 "
+              className=" text-sm font-medium disabled:cursor-not-allowed text-sky-600 disabled:text-sky-300 "
               disabled={text.length === 0}
             >
               Publicar

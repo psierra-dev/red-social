@@ -68,7 +68,7 @@ const Input = ({
   };
 
   return (
-    <div className="flex flex-col">
+    <div className="flex relative flex-col">
       <label className="flex relative m-0 h-[40px]">
         <span
           className={`absolute top-0 left-[8px] right-0 leading-[40px] text-xs font-thin text-gray-500 transition-transform ease-in-out duration-100 origin-left ${
@@ -80,12 +80,12 @@ const Input = ({
         {customImput()}
       </label>
       {error || customError ? (
-        <p className=" mt-1 text-xs text-red-500 font-thin">
+        <p className="absolute bottom-[-19px] text-xs text-red-500 font-thin">
           {error?.message || customError?.message}
         </p>
       ) : null}
       {correct ? (
-        <p className=" mt-1 text-xs text-green-500 font-thin">
+        <p className="text-xs absolute bottom-[-19px] text-green-500 font-thin">
           {correct.message}
         </p>
       ) : null}

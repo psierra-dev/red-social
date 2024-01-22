@@ -10,6 +10,7 @@ import ContentPost from "./content-post";
 import Link from "next/link";
 import InpuntComment from "./input-comment";
 import Image from "next/image";
+
 const PostCard = ({
   post,
   comment = true,
@@ -17,14 +18,13 @@ const PostCard = ({
   post: Post;
   comment?: boolean;
 }) => {
-  console.log(post, "post");
   const time = timePosts(post.created_at);
 
   return (
     <div className="flex flex-col gap-3 p-2 md:p-4 rounded-xl w-full shadow-lg">
       <header className="flex justify-between w-full">
         <div className="flex gap-2">
-          <Link href={`/${post.users.user_name}`}>
+          <Link href={`/${post?.users.user_name}`}>
             <Image
               width={50}
               height={50}
@@ -33,8 +33,8 @@ const PostCard = ({
               className="w-[50px] h-[50px] rounded-full cursor-pointer"
             />
           </Link>
-          <div className=" flex gap-2 ">
-            <p className="text-xs font-bold">{post.users?.full_name}</p>
+          <div className=" flex gap-2" style={{ height: "fit-content" }}>
+            <p className="text-xs font-bold ">{post.users?.full_name}</p>
             <p className=" text-xs font-light">{time}</p>
           </div>
         </div>
@@ -44,14 +44,21 @@ const PostCard = ({
 
       <ContentPost text={post?.content as string} />
       <div className="w-full h-auto">
-        <Image
-          src={post?.image_url as string}
-          width={300}
-          height={300}
-          quality={100}
-          alt=""
-          className="w-full h-auto"
-        />
+        {post.image_url ? (
+          <Image
+            src={post?.image_url as string}
+            width={300}
+            height={300}
+            quality={100}
+            alt=""
+            className="w-full h-auto"
+            onError={(e) => console.error(e.target)}
+          />
+        ) : (
+          <div className="w-full h-[300px] flex flex-col justify-center items-center">
+            <p>No se puede mostrar esta imagen.</p>
+          </div>
+        )}
       </div>
 
       <div className="flex w-full">

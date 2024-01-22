@@ -24,7 +24,7 @@ export default class PostService {
 
     private async sortPost(data: any) {
         const user = await this.auth.getUser()
-        console.log(data, 'dataaaaaa')
+        
         if(data === null || data.length === 0) return []
         const posts = data.length >= 1 ? data.map((p: any) => {
             return {
@@ -75,7 +75,9 @@ export default class PostService {
             .select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)")
             .in("user_id", [...followedId, userAuth?.id])
             .order("created_at", { ascending: false })
+
             let posts = await this.sortPost(data)
+
             return {posts , error}
         }
 

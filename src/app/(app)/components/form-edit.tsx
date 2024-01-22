@@ -7,7 +7,7 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BiX } from "react-icons/bi";
+import { BiUserCircle, BiX } from "react-icons/bi";
 import * as z from "zod";
 import Loader from "@/app/components/loader";
 import useLoadImage from "@/app/hooks/useLoadImage";
@@ -31,7 +31,7 @@ const FormEdit = ({ user }: { user: User }) => {
   });
 
   const router = useRouter();
-  const { handleChangeFile, file, seletedImage } = useLoadImage(
+  const { handleChangeFile, file, selectedImage } = useLoadImage(
     user?.avatar_url as string
   );
 
@@ -49,7 +49,7 @@ const FormEdit = ({ user }: { user: User }) => {
     const { data: d, error } = await userService.update(
       data,
       file,
-      user.avatar_url !== seletedImage
+      user.avatar_url !== selectedImage
     );
 
     if (error !== null) setStatus("error");
@@ -65,7 +65,7 @@ const FormEdit = ({ user }: { user: User }) => {
   const isEq =
     user.full_name !== watch("full_name") ||
     user.user_name !== watch("user_name") ||
-    user.avatar_url !== seletedImage
+    user.avatar_url !== selectedImage
       ? true
       : false;
 
@@ -83,13 +83,19 @@ const FormEdit = ({ user }: { user: User }) => {
         className="flex flex-col gap-4 m-3 mt-6"
       >
         <div>
-          <Image
-            width={50}
-            height={50}
-            src={seletedImage}
-            alt=""
-            className="w-[40px] h-[40px] rounded-full"
-          />
+          {selectedImage ? (
+            <Image
+              width={50}
+              height={50}
+              src={selectedImage}
+              alt=""
+              className="w-[40px] h-[40px] rounded-full"
+            />
+          ) : (
+            <div className="w-[40px] h-[40px] rounded-full">
+              <BiUserCircle className="h-full w-full" />
+            </div>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation();

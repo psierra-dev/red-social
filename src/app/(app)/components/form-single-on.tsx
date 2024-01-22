@@ -9,18 +9,23 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import UserService from "@/app/services/user";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/components/loader";
+import { BiUserCircle } from "react-icons/bi";
+import { User } from "@/app/types/user";
 
-const FormSingleOn = () => {
+const FormSingleOn = ({ user }: { user: User }) => {
   const router = useRouter();
   const supabase = createClientComponentClient();
 
   const userService = new UserService(supabase);
-  const [text, settText] = useState("");
+  const [text, settText] = useState(user?.user_name ?? "");
 
-  const { debouncedValue } = useDebounce(text, 50);
+  const { debouncedValue } = useDebounce(
+    text !== user?.user_name ? text : "",
+    50
+  );
   const { status, loading } = useSearchAvatarName(debouncedValue as string);
 
-  const { handleChangeFile, file, seletedImage } = useLoadImage("");
+  const { handleChangeFile, file, selectedImage } = useLoadImage("");
   const inputImage = useRef<HTMLInputElement | null>(null);
   const [statu, setStatu] = useState<
     "typing" | "loading" | "error" | "success"
@@ -33,19 +38,24 @@ const FormSingleOn = () => {
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatu("loading");
-    const { data, error } = await userService.update(
-      { user_name: text, is_completed: true },
-      file,
-      true
-    );
-    console.log(data, error);
-    if (error === null) {
-      router.push("/");
+
+    if (text !== user?.user_name) {
+      const { data, error } = await userService.update(
+        { user_name: text, is_completed: true },
+        file,
+        true
+      );
+      console.log(data, error);
+      if (error === null) {
+        router.push("/");
+      }
+
+      setStatu("error");
+
+      setTimeout(() => setStatu("typing"), 1000);
     }
 
-    setStatu("error");
-
-    setTimeout(() => setStatu("typing"), 1000);
+    router.push("/");
     console.log(text);
   };
 
@@ -54,13 +64,19 @@ const FormSingleOn = () => {
       <h2 className=" text-lg text-center ">Completar perfil</h2>
       <form onSubmit={onSubmit} className="flex flex-col gap-4">
         <div className="flex flex-col items-center">
-          <Image
-            width={500}
-            height={500}
-            src={seletedImage}
-            alt=""
-            className="w-[150px] h-[150px] rounded-full"
-          />
+          {selectedImage ? (
+            <Image
+              width={500}
+              height={500}
+              src={selectedImage}
+              alt=""
+              className="w-[150px] h-[150px] rounded-full"
+            />
+          ) : (
+            <div className="w-[150px] h-[150px] rounded-full flex items-center justify-center text-8xl">
+              <BiUserCircle />{" "}
+            </div>
+          )}
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -101,7 +117,7 @@ const FormSingleOn = () => {
 
         <button
           type="submit"
-          className="w-full p-2 mb-1 rounded-lg bg-sky-500 text-white flex justify-center items-center text-sm"
+          className="w-full p-2 mt-3 rounded-lg bg-sky-500 disabled:bg-sky-300 disabled:cursor-not-allowed cursor-pointer text-white flex justify-center items-center text-sm"
           disabled={status === "is_used" || loading || text.length < 1}
         >
           {statu === "loading" ? (
