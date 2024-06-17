@@ -2,7 +2,7 @@
 import NotificationService from "@/app/services/notification";
 import PostService from "@/app/services/post";
 import { Likes } from "@/app/types/likes";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/app/utils/supabase/client";
 import React, { useState } from "react";
 import { BiHeart, BiSolidHeart } from "react-icons/bi";
 
@@ -19,7 +19,7 @@ const BtnLike = ({
 }) => {
   const [allLikes, setAllLikes] = useState(likes.length);
   const [like, setLike] = useState(isLike);
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const postService = new PostService(supabase);
   const notiService = new NotificationService(supabase);
   const handleLike = async () => {

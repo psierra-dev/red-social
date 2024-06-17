@@ -1,13 +1,13 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import ListPost from "./components/list-post";
 import PostService from "../services/post";
 import { Post } from "../types/post";
+import { createClient } from "../utils/supabase/server";
+
 export const dynamic = "force-dynamic";
 const page = async () => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient();
   const {
     data: { session },
   } = await supabase.auth.getSession();

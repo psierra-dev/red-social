@@ -1,20 +1,20 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Input from "./input";
+import Input from "../../(app)/components/input";
 import useDebounce from "@/app/hooks/useDebounce";
 import useSearchAvatarName from "@/app/hooks/useSearchAvatarName";
 import useLoadImage from "@/app/hooks/useLoadImage";
 import Image from "next/image";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import UserService from "@/app/services/user";
 import { useRouter } from "next/navigation";
 import Loader from "@/app/components/loader";
 import { BiUserCircle } from "react-icons/bi";
 import { User } from "@/app/types/user";
+import { createClient } from "@/app/utils/supabase/client";
 
 const FormSingleOn = ({ user }: { user: User }) => {
   const router = useRouter();
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const userService = new UserService(supabase);
   const [text, settText] = useState(user?.user_name ?? "");
@@ -48,11 +48,13 @@ const FormSingleOn = ({ user }: { user: User }) => {
       console.log(data, error);
       if (error === null) {
         router.push("/");
+        return
       }
 
       setStatu("error");
 
       setTimeout(() => setStatu("typing"), 1000);
+      return 
     }
 
     router.push("/");

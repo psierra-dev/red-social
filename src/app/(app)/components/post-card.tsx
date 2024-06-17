@@ -3,7 +3,7 @@ import { Post } from "@/app/types/post";
 import React from "react";
 import { BiMessageRounded } from "react-icons/bi";
 import BtnLike from "./btn-like";
-import timePosts from "@/app/util/hora";
+import timePosts from "@/app/utils/hora";
 import OptionPost from "./option-post";
 import ContentPost from "./content-post";
 

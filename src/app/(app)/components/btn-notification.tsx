@@ -4,7 +4,7 @@ import {
   NotificationsContext,
   NotificationsDispatchContext,
 } from "@/app/store/NotificationProvider";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/app/utils/supabase/client";
 import { usePathname } from "next/navigation";
 import React, { useEffect, useState, useContext } from "react";
 import { BiBell } from "react-icons/bi";
@@ -18,7 +18,7 @@ const BtnNotification = ({
   onShow?: () => void;
   user_id: string;
 }) => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const [numberNoti, setNumberNoti] = useState(noti);
   const dispatch = useContext(NotificationsDispatchContext);
   const state = useContext(NotificationsContext);

@@ -1,16 +1,17 @@
 "use client";
-import AuthButton from "@/app/components/auth-button";
+import AuthButton from "@/app/(auth)/components/auth-button";
 import { useForm } from "react-hook-form";
-import Input from "./input";
+import Input from "../../(app)/components/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { usePathname, useRouter } from "next/navigation";
 import { formAuthSchema } from "@/app/schema/zod";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Link from "next/link";
 import { useState } from "react";
 import Loader from "@/app/components/loader";
-import errorSupabase from "@/app/util/error-supabase";
+import errorSupabase from "@/app/utils/error-supabase";
+import { createClient } from "@/app/utils/supabase/client";
+
 
 type FormData = z.infer<typeof formAuthSchema>;
 
@@ -36,7 +37,7 @@ const FormAuth = () => {
 
   const router = useRouter();
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
 
   const onSubmit = async (data: FormData) => {
     setStatu("loading");

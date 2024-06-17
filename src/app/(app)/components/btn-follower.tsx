@@ -2,7 +2,7 @@
 
 import FollowersService from "@/app/services/followers";
 import NotificationService from "@/app/services/notification";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/app/utils/supabase/client";
 import React, { useState } from "react";
 
 const ButtonFollower = ({
@@ -12,9 +12,8 @@ const ButtonFollower = ({
   followers_id: string;
   isFollowing: boolean;
 }) => {
-  console.log(isFollowing);
   const [following, setFollowing] = useState(isFollowing);
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const notiServe = new NotificationService(supabase);
   const followersService = new FollowersService(supabase);
 

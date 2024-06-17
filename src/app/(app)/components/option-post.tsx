@@ -1,6 +1,7 @@
 "use client";
 import Modal from "@/app/components/modal";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/app/utils/supabase/client";
+
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BiDotsHorizontalRounded, BiPencil, BiTrash } from "react-icons/bi";
@@ -8,7 +9,7 @@ import { BiDotsHorizontalRounded, BiPencil, BiTrash } from "react-icons/bi";
 const OptionPost = ({ postId }: { postId: number }) => {
   const [option, setOption] = useState(false);
   const [modal, setModal] = useState(false);
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const router = useRouter();
   const handleDelete = async () => {
     //const {data: {user}} = await supabase.auth.getUser()

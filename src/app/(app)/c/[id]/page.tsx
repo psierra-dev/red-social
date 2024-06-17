@@ -1,8 +1,9 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import ListComment from "../../components/list-comment";
 import CommetsService from "@/app/services/comment";
 import { cookies } from "next/headers";
 import { Comment } from "@/app/types/comments";
+import { createClient } from "@/app/utils/supabase/server";
+
 
 export const dynamic = "force-dynamic";
 export default async function PhotoPage({
@@ -10,7 +11,7 @@ export default async function PhotoPage({
 }: {
   params: { id: string };
 }) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient();
   const commentService = new CommetsService(supabase);
   const { data } = await commentService.get(id);
 

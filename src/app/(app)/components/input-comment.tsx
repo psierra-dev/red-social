@@ -4,9 +4,10 @@ import CommetsService from "@/app/services/comment";
 import React, { useState } from "react";
 import { BiHappy } from "react-icons/bi";
 import CardComment from "./card-comment";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { Comment } from "@/app/types/comments";
 import NotificationService from "@/app/services/notification";
+import { createClient } from "@/app/utils/supabase/client";
+
 
 const InpuntComment = ({
   post_id,
@@ -19,7 +20,7 @@ const InpuntComment = ({
   owner_id: string | null;
   type: "onePost" | "listPost";
 }) => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const [text, setText] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [newComment, setNewComment] = useState<[] | Comment[]>([]);

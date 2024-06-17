@@ -1,14 +1,14 @@
 "use client";
 import Skeleton from "@/app/components/skeleton";
 import { User } from "@/app/types/user";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/app/utils/supabase/client";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { BiSearch, BiX } from "react-icons/bi";
 
 const Search = ({ onClose }: { onClose: () => void }) => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const router = useRouter();
 
   const [status, setStatus] = useState<

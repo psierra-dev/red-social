@@ -6,13 +6,13 @@ import {
   NotificationsDispatchContext,
 } from "@/app/store/NotificationProvider";
 import { TNotification } from "@/app/types/notification";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { createClient } from "@/app/utils/supabase/client";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useContext } from "react";
 const Notification = () => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const notiService = new NotificationService(supabase);
   const [notifications, setNotifications] = useState<TNotification[] | []>([]);
   //const router = useRouter()

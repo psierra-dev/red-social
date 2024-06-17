@@ -1,11 +1,12 @@
 "use client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import React from "react";
-import { cookies } from "next/headers";
 import { useRouter } from "next/navigation";
+import { createClient } from "@/app/utils/supabase/client";
+
 
 const ButtonSignOut = () => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const router = useRouter();
   return (
     <button

@@ -6,7 +6,7 @@ export default function AppLayout(props: {
   children: React.ReactNode;
   modal: React.ReactNode;
 }) {
-  console.log("Aqui layout");
+
   return (
     <div className=" h-full grow-0 block bg-white dark:bg-black dark:text-white">
       <div className="md:min-h-full max-h-[calc(100%-78px)]  md:ml-auto md:w-[calc(100%-78px)]">

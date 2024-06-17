@@ -1,7 +1,7 @@
 "use client";
 import { createContext, useReducer, useEffect } from "react";
 import { TNotification } from "../types/notification";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
 
 type NotificationsContextProp = {
   notifications: TNotification[];
@@ -27,7 +27,7 @@ export function NotificationsProvider({
     initialNotifications
   );
 
-  const supabase = createClientComponentClient();
+
 
   /*useEffect(() => {
     const chanel = supabase

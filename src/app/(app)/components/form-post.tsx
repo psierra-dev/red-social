@@ -1,7 +1,6 @@
 "use client";
 
 import EmojiPicker from "@/app/components/emoji-picker";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useRef, useState } from "react";
 import { BiHappy, BiImage, BiLoaderAlt, BiX } from "react-icons/bi";
 import { useRouter } from "next/navigation";
@@ -10,6 +9,8 @@ import PostService from "@/app/services/post";
 import Loader from "@/app/components/loader";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import Image from "next/image";
+import { createClient } from "@/app/utils/supabase/client";
+
 
 const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
   const [text, setText] = useState("");
@@ -23,7 +24,7 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
 
   const router = useRouter();
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const postService = new PostService(supabase);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {

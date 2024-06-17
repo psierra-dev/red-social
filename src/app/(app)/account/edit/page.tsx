@@ -1,12 +1,12 @@
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
 import { cookies } from "next/headers";
 import UserService from "@/app/services/user";
 import FormEdit from "../../components/form-edit";
+import { createClient } from "@/app/utils/supabase/server";
 
 export const dynamic = "force-dynamic";
 const page = async () => {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createClient();
   const userService = new UserService(supabase);
 
   const { data, error } = await userService.getUser();

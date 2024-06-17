@@ -1,11 +1,13 @@
 "use client";
 import { BiBrightnessHalf, BiLogOut } from "react-icons/bi";
 import BtnTema from "./btn-tema";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
 import { useRouter } from "next/navigation";
+import { createClient } from "@/app/utils/supabase/client";
+
 
 const OptionMenu = ({ style }: { style: string }) => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const router = useRouter();
   return (
     <div

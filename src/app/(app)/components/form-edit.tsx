@@ -3,7 +3,6 @@ import { formEditUserSchema } from "@/app/schema/zod";
 import UserService from "@/app/services/user";
 import { User } from "@/app/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -12,6 +11,8 @@ import * as z from "zod";
 import Loader from "@/app/components/loader";
 import useLoadImage from "@/app/hooks/useLoadImage";
 import Image from "next/image";
+import { createClient } from "@/app/utils/supabase/client";
+
 
 type FormData = z.infer<typeof formEditUserSchema>;
 
@@ -40,7 +41,7 @@ const FormEdit = ({ user }: { user: User }) => {
   >("typing");
 
   const inputImage = useRef<HTMLInputElement | null>(null);
-  const supabase = createClientComponentClient();
+  const supabase = createClient()
   const userService = new UserService(supabase);
 
   const onSubmit = async (data: FormData) => {

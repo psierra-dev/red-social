@@ -1,5 +1,5 @@
 import React from "react";
-import FormAuth from "@/app/(app)/components/form-auth";
+import FormAuth from "@/app/(auth)/components/form-auth";
 
 const LoginPage = () => {
   return (

@@ -1,8 +1,10 @@
 "use client";
+import { createClient } from "@/app/utils/supabase/client";
 import React from "react";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+
+
 const AuthButton = () => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   console.log(process.env.NEXT_PUBLIC_URL_APP);
   const handleSignIn = async () => {
     
@@ -10,7 +12,7 @@ const AuthButton = () => {
       provider: "google",
       options: {
         
-        redirectTo: `${process.env.NEXT_PUBLIC_URL_APP}auth/callback`,
+        redirectTo: `${process.env.NEXT_PUBLIC_URL_APP}/auth/callback`,
       },
     });
   };

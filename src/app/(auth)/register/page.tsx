@@ -1,4 +1,4 @@
-import FormAuth from "@/app/(app)/components/form-auth";
+import FormAuth from "@/app/(auth)/components/form-auth";
 import React from "react";
 
 const page = () => {

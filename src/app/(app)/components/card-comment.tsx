@@ -1,5 +1,5 @@
 import { User } from "@/app/types/user";
-import timeComment from "@/app/util/hora";
+import timeComment from "@/app/utils/hora";
 import React from "react";
 const CardComment = ({
   user,
