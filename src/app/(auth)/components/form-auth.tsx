@@ -11,6 +11,7 @@ import { useState } from "react";
 import Loader from "@/app/components/loader";
 import errorSupabase from "@/app/utils/error-supabase";
 import { createClient } from "@/app/utils/supabase/client";
+import InputOne from "@/app/components/input";
 
 
 type FormData = z.infer<typeof formAuthSchema>;
@@ -85,42 +86,34 @@ const FormAuth = () => {
 
   return (
     <div className="flex flex-col   rounded-xl  w-full max-w-[450px] p-6 md:p-10 m-2 gap-4">
-      <div className=" w-full">
-        <h2 className="text-lg mb-6 text-center">
+      <div className=" w-full flex flex-col gap-2">
+        <h2 className="text-lg ">
           {pathname === "/login" ? "Iniciar sesion" : "Crear cuenta"}
         </h2>
-        {<AuthButton />}
 
-        <div className=" relative mt-2">
-          <div className=" flex items-center inset-0 absolute">
-            <div className="w-full border-t border-scale-700"></div>
-          </div>
-
-          <div className=" relative flex justify-center text-sm">
-            <span className="bg-scale-200 px-2 text-sm text-foreground p-2">
-              o
-            </span>
-          </div>
-        </div>
+        <p className="text-neutral-500 text-xs">Bienvenido de nuevo</p>
       </div>
       <form
         action=""
         method="POST"
-        className="flex flex-col gap-7"
+        className="flex flex-col gap-4"
         onSubmit={handleSubmit(onSubmit)}
       >
         {pathname !== "/login" && (
           <>
-            <Input
+       
+            <InputOne
+              variant="fullname"
               type="text"
-              label="Escriba su nombre completo"
+              label=""
               name="fullName"
               register={register}
               required
               error={errors.fullName}
               text={watch("fullName")!}
             />
-            <Input
+            <InputOne
+              variant="user"
               type="text"
               label="Escriba su usuario"
               name="usuario"
@@ -131,24 +124,27 @@ const FormAuth = () => {
             />
           </>
         )}
-        <Input
-          type="text"
-          label="Email"
-          name="email"
-          register={register}
-          required
-          error={errors.email}
-          text={watch("email")!}
-        />
-        <Input
-          type="password"
-          label="Contraseña"
-          name="password"
-          register={register}
-          required
-          error={errors.password}
-          text={watch("password")!}
-        />
+           <InputOne 
+           variant="email"
+           type="email" 
+           placeholder="psierra@gmail.com"
+           name="email"
+           register={register}
+           required
+           error={errors.email}
+           text={watch("email")!}
+           />
+           <InputOne
+           variant="password" 
+           type="password" 
+           placeholder="*****"
+           name="password"
+           register={register}
+           required
+           error={errors.password}
+           text={watch("password")!}
+           />
+    
 
         <div className="w-full">
           <button
@@ -156,7 +152,7 @@ const FormAuth = () => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-            className="w-full p-2 mb-1 rounded-lg bg-sky-500 text-white flex justify-center items-center text-sm"
+            className="w-full h-[52px] px-2 mb-1 rounded-lg bg-sky-600 disabled:bg-sky-300 text-white flex justify-center items-center text-sm"
             disabled={statu === "loading"}
           >
             {statu === "loading" ? (
@@ -180,8 +176,8 @@ const FormAuth = () => {
           )}
         </div>
       </form>
-
-      <div className=" flex">
+      {<AuthButton />}
+      <div className=" flex justify-center">
         <p className="text-xs font-thin">
           {pathname === "/login" ? "No tienes cuenta?" : "Ya tienes cuenta?"}
           <Link href={pathname === "/login" ? "/register" : "/login"}>

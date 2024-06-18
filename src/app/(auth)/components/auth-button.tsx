@@ -20,7 +20,7 @@ const AuthButton = () => {
   return (
     <button
       type="button"
-      className="text-white text-xs bg-[#4285F4] hover:bg-[#4285F4]/90 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg  px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full"
+      className="text-xs h-[52px] bg-neutral-50 hover:bg-neutral-100 focus:ring-4 focus:outline-none focus:ring-[#4285F4]/50 font-medium rounded-lg  px-5 py-2.5 text-center text-black inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full"
       onClick={handleSignIn}
     >
       <svg

@@ -14,8 +14,7 @@ const LinkCustom = ({
   return (
     <Link href={href}>
       <div
-        className={`p-2 flex items-center justify-center hover:bg-[#80808056] rounded-md"
-        }`}
+        className="p-2 flex items-center rounded-md justify-center hover:bg-[#80808056]"
       >
         {children}
       </div>

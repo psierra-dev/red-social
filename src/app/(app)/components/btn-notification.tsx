@@ -61,7 +61,7 @@ const BtnNotification = ({
   }, [pathname]);
   return (
     <>
-      <div className="relative cursor-pointer" onClick={onShow}>
+      <div className="relative cursor-pointer p-2 hover:bg-[#80808056] rounded-md" onClick={onShow}>
         <div className=" bg-sky-700 flex justify-center items-center text-white absolute top-[-5%] right-0 w-[20px] h-[20px] rounded-full">
           <span className=" text-xs text-center">{state?.count}</span>
         </div>

@@ -1,7 +1,7 @@
 "use client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React, { useEffect, useState } from "react";
 import UserService from "../services/user";
+import { createClient } from "../utils/supabase/client";
 
 const useSearchAvatarName = (value: string) => {
   const [status, setStatus] = useState<"is_used" | "default" | "not_used">(
@@ -9,7 +9,7 @@ const useSearchAvatarName = (value: string) => {
   );
   const [loading, setLoading] = useState(false);
 
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const userService = new UserService(supabase);
 
   useEffect(() => {

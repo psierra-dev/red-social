@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState } from "react";
-import Input from "../../(app)/components/input";
+
 import useDebounce from "@/app/hooks/useDebounce";
 import useSearchAvatarName from "@/app/hooks/useSearchAvatarName";
 import useLoadImage from "@/app/hooks/useLoadImage";
@@ -11,6 +11,7 @@ import Loader from "@/app/components/loader";
 import { BiUserCircle } from "react-icons/bi";
 import { User } from "@/app/types/user";
 import { createClient } from "@/app/utils/supabase/client";
+import Input from "@/app/components/input";
 
 const FormSingleOn = ({ user }: { user: User }) => {
   const router = useRouter();
@@ -99,10 +100,11 @@ const FormSingleOn = ({ user }: { user: User }) => {
         </div>
 
         <Input
+          variant="user"
           name="usuario"
           type="text"
           label="Nombre de usuario"
-          handleChange={handleChange}
+          onChange={handleChange}
           required
           text={text}
           customError={
@@ -119,7 +121,7 @@ const FormSingleOn = ({ user }: { user: User }) => {
 
         <button
           type="submit"
-          className="w-full p-2 mt-3 rounded-lg bg-sky-500 disabled:bg-sky-300 disabled:cursor-not-allowed cursor-pointer text-white flex justify-center items-center text-sm"
+          className="w-full h-[52px] px-2 mb-1 rounded-lg bg-sky-600 disabled:bg-sky-300 text-white flex justify-center items-center text-sm"
           disabled={status === "is_used" || loading || text.length < 1}
         >
           {statu === "loading" ? (

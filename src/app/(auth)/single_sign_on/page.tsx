@@ -10,7 +10,7 @@ const page = async () => {
   const userService = new UserService(supabase);
 
   const { data: user, error } = await userService.getUser();
-  console.log(user, 'user')
+  console.log(user, 'user-------------------')
 
   if (user === null || error) {
     redirect("/login");

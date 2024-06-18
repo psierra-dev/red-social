@@ -1,7 +1,8 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Unbounded } from "next/font/google";
-import DarkTheme from "./(app)/components/dark-theme";
+import DarkTheme from "./components/dark-theme";
+
 
 const unbounded = Unbounded({ subsets: ["latin"] });
 export const metadata: Metadata = {
