@@ -1,10 +1,10 @@
 "use client";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import React from "react";
 import PostService from "../services/post";
+import { createClient } from "../utils/supabase/client";
 
 const usePost = () => {
-  const supabase = createClientComponentClient();
+  const supabase = createClient();
   const postService = new PostService(supabase);
 
   const createPost = async (data: any) => {};
