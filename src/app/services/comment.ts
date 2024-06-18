@@ -1,6 +1,7 @@
-import { SupabaseClient} from "@supabase/auth-helpers-nextjs"
+
 import AuthService from "./auth"
 import { Database } from "../types/database"
+import { SupabaseClient } from "@supabase/supabase-js"
 
 export default class CommetsService {
     private supabase: SupabaseClient<Database>
