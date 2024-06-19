@@ -14,7 +14,7 @@ interface Props {
   user_id: string;
 }
 
-const BtnNotification = forwardRef((props: Props, ref) => {
+const BtnNotification = forwardRef<HTMLButtonElement, Props>((props: Props, ref) => {
   const supabase = createClient();
   const dispatch = useContext(NotificationsDispatchContext);
   const state = useContext(NotificationsContext);
