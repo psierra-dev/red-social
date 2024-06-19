@@ -18,7 +18,7 @@ const PostCard = ({
   post: Post;
   comment?: boolean;
 }) => {
-  const time = timePosts(post.created_at);
+  const time = timePosts(post?.created_at);
 
   return (
     <div className="flex flex-col gap-3 p-2 md:p-4 rounded-xl w-full shadow-lg">
@@ -28,29 +28,29 @@ const PostCard = ({
             <Image
               width={50}
               height={50}
-              src={post.users?.avatar_url as string}
+              src={post?.users?.avatar_url as string}
               alt=""
               className="w-[50px] h-[50px] rounded-full cursor-pointer"
             />
           </Link>
-          <div className=" flex gap-2" style={{ height: "fit-content" }}>
-            <p className="text-xs font-bold ">{post.users?.full_name}</p>
+          <div className=" flex gap-2 h-fit">
+            <p className="text-xs font-bold ">{post?.users?.full_name}</p>
             <p className=" text-xs font-light">{time}</p>
           </div>
         </div>
 
-        {post.isOwner && <OptionPost postId={post.id} />}
+        {post?.isOwner && <OptionPost postId={post?.id} />}
       </header>
 
       <ContentPost text={post?.content as string} />
       <div className="w-full h-auto">
-        {post.image_url ? (
+        {post?.image_url ? (
           <Image
             src={post?.image_url as string}
             width={300}
             height={300}
             quality={100}
-            alt={post.image_url}
+            alt={post?.image_url}
             className="w-full h-auto"
             onError={(e) => console.error(e.target)}
           />
@@ -62,28 +62,28 @@ const PostCard = ({
       </div>
 
       <div className="flex w-full">
-        {post.likes && (
+        {post?.likes && (
           <BtnLike
-            likes={post.likes}
-            isLike={post.isLike}
-            postId={post.id}
-            owner_id={post.user_id}
+            likes={post?.likes}
+            isLike={post?.isLike}
+            postId={post?.id}
+            owner_id={post?.user_id}
           />
         )}
         <div className="flex flex-col justify-center items-center">
-          <Link href={`/c/${post.id}`}>
+          <Link href={`/c/${post?.id}`}>
             <div className=" text-3xl">
               <BiMessageRounded />
             </div>
           </Link>
-          <span>{post.count_comment[0].count}</span>
+          <span>{post?.count_comment[0].count}</span>
         </div>
         <div className="grow"></div>
       </div>
 
       {comment && (
         <InpuntComment
-          post_id={post.id}
+          post_id={post?.id}
           owner_id={post?.user_id}
           type="listPost"
         />

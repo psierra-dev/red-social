@@ -11,11 +11,11 @@ const page = async () => {
   const {
     data: { session },
   } = await supabase.auth.getSession();
-
+  
+  if (session === null) return redirect("/login");
   const postService = new PostService(supabase);
   const { posts } = await postService.allPosts();
 
-  if (session === null) return redirect("/login");
   return (
     <div>
       <ListPost posts={posts as Post[]} />

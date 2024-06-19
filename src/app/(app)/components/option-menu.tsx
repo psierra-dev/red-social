@@ -40,7 +40,8 @@ const OptionMenu = ({ style }: { style: string }) => {
           <div
             onClick={async () => {
               await supabase.auth.signOut();
-              router.refresh();
+              router.push("/login");
+              window.location.reload();
             }}
             className=" w-full cursor-pointer hover:bg-slate-100 dark:hover:bg-neutral-800 p-3 text-xs font-light flex gap-2 items-center"
           >

@@ -6,7 +6,7 @@ const error = (message) => {
     case 'duplicate key value violates unique constraint "users_user_key"':
       return "El nombre de usuario ya existe";
     case "Email not confirmed":
-      return "Debe confirmar el email";
+      return "Debes confirmar el email";
     default:
       return "Hubo un error";
   }

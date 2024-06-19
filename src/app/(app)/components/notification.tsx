@@ -11,12 +11,16 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState, useContext } from "react";
+import { set } from "zod";
 const Notification = () => {
   const supabase = createClient()
   const notiService = new NotificationService(supabase);
   const [notifications, setNotifications] = useState<TNotification[] | []>([]);
   //const router = useRouter()
   const dispatch = useContext(NotificationsDispatchContext);
+  const [statu, setStatu] = useState<
+  "typing" | "loading" | "error" | "success"
+>("typing");
 
   useEffect(() => {
     dispatch && dispatch({ type: "DELETE_NOTIFICATION", payload: 0 });
@@ -24,23 +28,47 @@ const Notification = () => {
 
   useEffect(() => {
     const getNotifications = async () => {
+      setStatu("loading")
       const { data, error } = await notiService.getAll();
       console.log(data, error);
-      if (error === null && data !== null) setNotifications(data);
+      if (error === null && data !== null) {
+        setNotifications(data)
+        setStatu("success")
+      }else {
+        setStatu("error")
+      };
     };
 
     getNotifications();
   }, []);
   return (
-    <div className=" w-full overflow-y-auto bg-white dark:bg-black min-h-screen">
+    <div className=" w-full overflow-y-auto border-r-[1px] border-neutral-500 dark:border-neutral-700 bg-white dark:bg-black min-h-screen">
       <header className="p-2">
         <h4 className=" text-md font-bold">Notificaciones</h4>
       </header>
 
-      <div className="flex flex-col gap-2">
-        {notifications.map((e) => (
+        <div className="flex flex-col gap-2 px-2">
+      {
+        statu === "loading" 
+        ? <>{
+          [1,2,3,4,5].map(e => (
+            <div key={e} className="animate-pulse w-full h-6 bg-neutral-700 rounded" />
+            ))
+        }
+        </>
+        :
+        <>
+        {
+        notifications.length > 0 ? notifications.map((e) => (
           <CardNotification key={e.id} data={e} />
-        ))}
+        ))
+        : <div className="flex flex-col gap-2 p-3">
+            <h6 className=" text-neutral-600 text-center text-base">No tienes notificacions</h6>
+        </div>
+        }
+
+        </> 
+      }
       </div>
     </div>
   );

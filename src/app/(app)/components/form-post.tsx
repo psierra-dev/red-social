@@ -10,6 +10,7 @@ import Loader from "@/app/components/loader";
 import { MdOutlineCameraAlt } from "react-icons/md";
 import Image from "next/image";
 import { createClient } from "@/app/utils/supabase/client";
+import ClickOutside from "@/app/components/click-outside";
 
 
 const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
@@ -21,11 +22,13 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
   >("typing");
 
   const inputImage = useRef<HTMLInputElement | null>(null);
-
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
   const router = useRouter();
 
   const supabase = createClient()
   const postService = new PostService(supabase);
+
+  const isMaxLength = 70 > text.length;
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,6 +47,26 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
       }
     } else {
       setStatus("error");
+    }
+  };
+
+  const insertEmoji = (emoji: string) => {
+    if (inputRef.current) {
+      const { selectionStart, selectionEnd } = inputRef.current;
+      if (selectionStart !== null && selectionEnd !== null) {
+        const comment =
+          text.slice(0, selectionStart) + emoji + text.slice(selectionEnd);
+        if(!isMaxLength) return
+        setText(comment);
+
+        setTimeout(() => {
+          if (inputRef.current) {
+            inputRef.current.selectionStart = selectionStart + emoji.length;
+            inputRef.current.selectionEnd = selectionStart + emoji.length;
+          }
+        }, 0);
+        inputRef?.current?.focus();
+      }
     }
   };
 
@@ -67,57 +90,77 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
           <button
             type="submit"
             disabled={!file}
-            className=" disabled:text-sky-300 disabled:cursor-not-allowed cursor-pointer text-sm text-sky-600"
+            className=" disabled:text-sky-300 disabled:cursor-not-allowed cursor-pointer text-xs md:text-sm text-sky-600"
           >
             Publicar
           </button>
         </header>
-        <div className="flex flex-col flex-1  gap-6">
+        <div className="flex flex-col flex-1  gap-6 overflow-auto">
           <div className=" flex flex-col relative w-full">
+            
             <textarea
+              ref={inputRef}
               value={text}
               name="content"
               id=""
-              onChange={(e) => setText(e.target.value)}
+              onChange={(e) => {
+                if(!isMaxLength) return
+                setText(e.target.value)
+              }}
               placeholder="Que estas pensando?"
               className="w-full h-[100px]  p-3 my-2 text-sm grow focus:outline-none bg-transparent placeholder:text-sm"
               autoFocus={true}
               style={{}}
             />
-            <div className=" hidden sm:flex relative  justify-end">
+            <div className=" hidden sm:flex relative  justify-between">
+            <div className="flex items-center text-[11px]">
+              <span>{text.length}</span>
+              /
+              <span>70</span>
+            </div>
+            <div>
               <button
                 className="self-end text-xl"
                 onClick={(e) => {
                   e.stopPropagation();
                   e.preventDefault();
-                  setShowEmoji(!showEmoji);
+                  setShowEmoji(true);
+                  inputRef?.current?.focus()
                 }}
               >
                 <BiHappy />
               </button>
               {showEmoji && (
-                <div className="absolute top-[30px] right-[0]">
-                  <EmojiPicker onSelect={(e) => setText(text + e)} />
-                </div>
+                <ClickOutside onClose={() => setShowEmoji(false)}>
+                  <div className="absolute top-[30px] right-[0]">
+                    <EmojiPicker onSelect={(emoji) => insertEmoji(emoji)} />
+                  </div>
+                </ClickOutside>
               )}
             </div>
+            </div>
           </div>
-          <div className="flex flex-1 flex-col w-full ">
+          <div className="flex flex-1 overflow-auto flex-col w-full ">
             {selectedImage ? (
-              <div className="flex flex-1 justify-center w-full ">
-                <div>
+              <div className="flex flex-1 overflow justify-center w-full ">
+                <div className=" flex justify-center items-center overflow w-[90%]">
                   <Image
                     src={selectedImage}
                     alt="preview"
-                    className=" max-w-[270px] rounded-lg"
+                    className=" w-full rounded-lg"
                     width={300}
                     height={400}
                   />
                 </div>
               </div>
             ) : (
-              <div className="flex flex-col h-[350px] flex-1  items-center justify-center"></div>
+              <div className="flex flex-col h-[350px] flex-1  items-center justify-center">
+                <span className="text-4xl text-neutral-600"><BiImage /></span>
+                <h6 className=" text-neutral-600 text-lg">No hay imagen</h6>
+                <p className=" text-sm text-neutral-700 ">Seleccione una imagen desde tu dispositivo</p>
+              </div>
             )}
+          </div>
             <button
               onClick={(e) => {
                 e.stopPropagation();
@@ -135,7 +178,6 @@ const FormPost = ({ onCloseModal }: { onCloseModal: () => void }) => {
               ref={inputImage}
               onChange={handleChangeFile}
             />
-          </div>
         </div>
       </form>
     </div>

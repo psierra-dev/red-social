@@ -85,7 +85,7 @@ const FormAuth = () => {
   };
 
   return (
-    <div className="flex flex-col   rounded-xl  w-full max-w-[450px] p-6 md:p-10 m-2 gap-4">
+    <div className="flex flex-col   rounded-xl  w-full max-w-[450px] p-2  m-2 gap-4">
       <div className=" w-full flex flex-col gap-2">
         <h2 className="text-lg ">
           {pathname === "/login" ? "Iniciar sesion" : "Crear cuenta"}
@@ -164,7 +164,7 @@ const FormAuth = () => {
             )}
           </button>
           {statu === "error" && (
-            <p className="text-xs font-thin text-red-400">
+            <p className="text-xs text-center font-thin text-red-400">
               {errorSupabase(errorStatus.message)}
             </p>
           )}

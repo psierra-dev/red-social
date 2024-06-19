@@ -94,12 +94,12 @@ const Input = ({ variant, customError, error, correct, name, required, register,
 
    
       {error || customError ? (
-        <p className="absolute bottom-[-19px] text-xs text-red-500 font-thin">
+        <p className="absolute top-[53px] text-[11px] md:text-xs text-red-500 font-thin">
           {error?.message || customError?.message}
         </p>
       ) : null}
       {correct ? (
-        <p className="text-xs absolute bottom-[-19px] text-green-500 font-thin">
+        <p className="text-[11px] md:text-xs absolute top-[53px] text-green-500 font-thin">
           {correct.message}
         </p>
       ) : null}

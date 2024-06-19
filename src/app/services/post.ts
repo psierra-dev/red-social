@@ -49,7 +49,6 @@ export default class PostService {
         if(data !== null){
             post = await this.sortPost(data)
         }
-        console.log(post)
         return {post, error}
     }
     async getPostPerfil(userId: string){
@@ -61,7 +60,6 @@ export default class PostService {
         .order("created_at", { ascending: false })
         let posts = await this.sortPost(data)
         
-        console.log(posts, 'posts quie')
     return {posts, error}
     }
     async allPosts() {
@@ -69,11 +67,11 @@ export default class PostService {
 
         const {followedId} = await this.followers.getFollwedId(userAuth?.id)
 
-        if(followedId && followedId?.length > 0) {
+        if((followedId && followedId?.length > 0) || userAuth?.id) {
             const { data, error } = await this.supabase
             .from("posts")
             .select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)")
-            .in("user_id", [...followedId, userAuth?.id])
+            .in("user_id", [...followedId ?? [], userAuth?.id])
             .order("created_at", { ascending: false })
 
             let posts = await this.sortPost(data)

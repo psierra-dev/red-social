@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, Suspense } from "react";
+import React, { useState, Suspense, useRef } from "react";
 import { BiHomeAlt, BiUserCircle } from "react-icons/bi";
 import LinkCustom from "./link";
 import ButtonModal from "./btn-modal";
@@ -9,8 +9,10 @@ import Notification from "./notification";
 import { User } from "@/app/types/user";
 import BtnMenu from "./btn-menu";
 import Image from "next/image";
+import ClickOutside from "@/app/components/click-outside";
 const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
   const [showNoti, setNotiShow] = useState(false);
+  const buttonRef = useRef<HTMLButtonElement | null>(null);
 
   return (
     <div className="fixed bottom-0 z-40 md:left-0 md:top-0 w-full md:w-auto rounded-t-[30px] md:rounded-none bg-white dark:bg-black dark:text-white">
@@ -32,6 +34,7 @@ const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
                 </li>
                 <li className="hidden md:block">
                   <BtnNotification
+                    ref={buttonRef}
                     onShow={() => setNotiShow(!showNoti)}
                     noti={num_noti}
                     user_id={user?.id}
@@ -64,11 +67,21 @@ const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
             <BtnMenu />
           </div>
           {showNoti && (
+            <ClickOutside onClose={(event) => {
+              if (
+                buttonRef.current &&
+                !buttonRef.current.contains(event?.target as Node)
+              ) {
+                setNotiShow(false);
+              }
+            }}>
             <div className="hidden md:block absolute left-[70px] transition ease-in-out delay-150 translate-x-[0%]">
               <div className="min-w-[340px] px-2">
                 <Notification />
               </div>
             </div>
+
+            </ClickOutside>
           )}
         </div>
       </div>

@@ -10,6 +10,8 @@ export async function middleware(request: NextRequest) {
     },
   })
 
+  console.log("middleware")
+
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -56,7 +58,13 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  await supabase.auth.getUser()
-    
+  const { data } = await supabase.auth.getUser()
+  console.log(data, 'mddasdasdasdasdasdasdasd')
   return response
+}
+
+export const config = {
+  matcher: [
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 }

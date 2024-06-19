@@ -53,9 +53,12 @@ const FormEdit = ({ user }: { user: User }) => {
       user.avatar_url !== selectedImage
     );
 
-    if (error !== null) setStatus("error");
+    if (error !== null) {
+      setStatus("error")
+      return
+    };
 
-    setStatus("success");
+    
 
     setTimeout(() => {
       setStatus("typing");
@@ -73,7 +76,7 @@ const FormEdit = ({ user }: { user: User }) => {
   return (
     <div className=" w-full max-w-[500px]">
       <div className="flex m-2 gap-2">
-        <button className="text-2xl" onClick={() => router.back()}>
+        <button className="text-2xl" onClick={() => router.push(`/${user?.user_name}`)}>
           <BiX />
         </button>
         <h2 className=" text-xl">Editar Perfil</h2>
@@ -148,7 +151,7 @@ const FormEdit = ({ user }: { user: User }) => {
         </div>
         <button
           type="submit"
-          className={`p-2 bg-sky-600 rounded-lg text-white text-sm flex justify-center ${
+          className={`px-2 h-10  bg-sky-600 disabled:bg-sky-300 rounded-lg text-white text-sm flex items-center justify-center ${
             !isEq ? "bg-sky-200" : ""
           }`}
           disabled={!isEq}

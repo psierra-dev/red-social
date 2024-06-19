@@ -1,13 +1,13 @@
 "use client";
 import { User } from "@/app/types/user";
 import React, { useState } from "react";
-import ButtonFollower from "../../components/btn-follower";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { BiUserCircle, BiX } from "react-icons/bi";
+import ButtonFollower from "../../components/btn-follower";
 import { MdSettings } from "react-icons/md";
 import Modal from "@/app/components/Modal/modal";
 import OptionMenu from "../../components/option-menu";
-import { BiUserCircle, BiX } from "react-icons/bi";
-import Image from "next/image";
 const PerfilInfo = ({
   user,
   following,
@@ -33,7 +33,7 @@ const PerfilInfo = ({
         <p className="text-sm font-bold">{following}</p>
       </div>
       <div className="flex flex-col gap-1 items-center">
-        <div className="w-[130px] h-[130px] md:w-[150px] md:h-[150px] ">
+        <div className="w-[120px] h-[120px] md:w-[140px] md:h-[140px] ">
           {user?.avatar_url ? (
             <Image
               width={100}
@@ -61,7 +61,7 @@ const PerfilInfo = ({
             >
               Editar perfil
             </button>
-            <button className=" text-xl" onClick={() => setSetting(true)}>
+            <button className="block md:hidden text-xl" onClick={() => setSetting(true)}>
               <MdSettings />
 
               {setting && (

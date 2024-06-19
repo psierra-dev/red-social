@@ -1,8 +1,6 @@
 import React from "react";
 import { redirect } from "next/navigation";
-import { cookies } from "next/headers";
 import { Post } from "@/app/types/post";
-import { Database } from "@/app/types/database";
 import PerfilInfo from "./components/perfil-info";
 import PostService from "@/app/services/post";
 import UserService from "@/app/services/user";
@@ -18,7 +16,7 @@ const page = async ({ params }: { params: { userId: string } }) => {
   } = await supabase.auth.getSession();
 
   if (session === null) return redirect("/login");
-  console.log(params);
+ 
 
   const postService = new PostService(supabase);
   const userService = new UserService(supabase);
