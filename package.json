@@ -34,5 +34,8 @@
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
     "zod": "^3.22.3"
+  },
+  "devDependencies": {
+    "encoding": "^0.1.13"
   }
 }
