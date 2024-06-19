@@ -66,4 +66,6 @@ const BtnNotification = forwardRef((props: Props, ref) => {
   );
 });
 
+BtnNotification.displayName = 'BtnNotification';
+
 export default BtnNotification;
