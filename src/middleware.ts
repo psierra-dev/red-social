@@ -4,7 +4,7 @@ import UserService from './app/services/user';
  
 // This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
-  console.log("middleware")
+ 
   let response = NextResponse.next({
     request: {
       headers: request.headers,

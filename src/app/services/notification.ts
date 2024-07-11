@@ -36,7 +36,7 @@ class NotificationService {
             read: false,
             emisor_id: user?.id
         })
-        console.log(data,error, 'notifications')
+    
         return {data, error}
     }
 
@@ -45,7 +45,7 @@ class NotificationService {
 
         const {data, error} = await this.supabase.from('notifications').select('*').eq('receptor_id', user?.id as string).eq('show', false)
         
-        console.log(data?.length, 'count', error)
+       
         let count = data?.length
       return {count, error}
     }

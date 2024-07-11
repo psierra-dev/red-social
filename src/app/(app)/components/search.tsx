@@ -37,7 +37,7 @@ const Search = ({onClose}: {onClose: () => void}) => {
     }
   };
   return (
-    <div className="h-screen sm:h-[calc(100vh-100px)] flex flex-col w-screen sm:w-[500px] bg-white dark:bg-black sm:rounded-xl">
+    <div className="h-[630px] sm:h-[calc(100vh-100px)] flex flex-col w-screen sm:w-[500px] bg-white dark:bg-black sm:rounded-xl">
       <header className="flex flex-col p-3 md:p-6 border-b-2 border-b-[#313131] w-full mb-3">
         <div className="flex justify-between items-center mb-3">
           <h4 className=" text-sm dark:text-white">Búsquedad</h4>

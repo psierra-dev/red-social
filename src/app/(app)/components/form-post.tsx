@@ -70,7 +70,7 @@ const FormPost = ({onCloseModal}: {onCloseModal: () => void}) => {
   };
 
   return (
-    <div className="relative bg-white dark:bg-black dark:text-white h-screen flex sm:max-h-[740px] p-2 w-full max-w-[500px]  sm:rounded-lg">
+    <div className="relative bg-white dark:bg-black dark:text-white h-screen max-h-[630px] flex  sm:max-h-[740px] p-2 w-full max-w-[500px]  sm:rounded-lg">
       {status === "loading" && (
         <div className="absolute top-0 bottom-0 right-0 left-0 bg-[#000000b4] z-20 flex items-center justify-center">
           <div className="flex flex-col items-center justify-center">
@@ -83,7 +83,7 @@ const FormPost = ({onCloseModal}: {onCloseModal: () => void}) => {
 
       <form onSubmit={handleSubmit} className="w-full flex flex-col ">
         <header className="flex w-full justify-between ">
-          <button className="" onClick={onCloseModal}>
+          <button className="text-2xl" onClick={onCloseModal}>
             <BiX />
           </button>
           <button
