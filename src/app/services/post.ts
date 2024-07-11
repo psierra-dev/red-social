@@ -53,6 +53,7 @@ export default class PostService {
     }
     async getPostPerfil(userId: string){
         
+        console.log(userId, 'userId')
         const { data, error } = await this.supabase
         .from("posts")
         .select("*, users(*), count_like:likes(count), count_comment:comments(count), likes(*)")
@@ -60,9 +61,14 @@ export default class PostService {
         .order("created_at", { ascending: false })
         let posts = await this.sortPost(data)
         
-    return {posts, error}
+        console.log(posts, 'posts')
+    return { posts, error }
     }
-    async allPosts() {
+    async allPosts(user_id?: string) {
+        if(user_id) {
+            return this.getPostPerfil(user_id)
+        }
+
         const userAuth = await this.auth.getUser()
 
         const {followedId} = await this.followers.getFollwedId(userAuth?.id)
@@ -79,7 +85,7 @@ export default class PostService {
             return {posts , error}
         }
 
-        return { data: [], error:null}
+        return { posts: [], error:null}
     }
 
     async uploadImage(user_id: string, file: File) {

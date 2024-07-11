@@ -1,18 +1,17 @@
 "use client";
 import AuthButton from "@/app/(auth)/components/auth-button";
-import { useForm } from "react-hook-form";
-import Input from "../../(app)/components/input";
-import { zodResolver } from "@hookform/resolvers/zod";
+import {useForm} from "react-hook-form";
+import {zodResolver} from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { usePathname, useRouter } from "next/navigation";
-import { formAuthSchema } from "@/app/schema/zod";
+import {usePathname, useRouter} from "next/navigation";
+import {formAuthSchema} from "@/app/schema/zod";
 import Link from "next/link";
-import { useState } from "react";
+import {useState} from "react";
 import Loader from "@/app/components/loader";
 import errorSupabase from "@/app/utils/error-supabase";
-import { createClient } from "@/app/utils/supabase/client";
+import {createClient} from "@/app/utils/supabase/client";
 import InputOne from "@/app/components/input";
-
+import AuthService from "@/app/services/auth";
 
 type FormData = z.infer<typeof formAuthSchema>;
 
@@ -23,7 +22,7 @@ const FormAuth = () => {
     register,
     watch,
     reset,
-    formState: { errors, isSubmitting, isDirty, isValid },
+    formState: {errors},
   } = useForm<FormData>({
     resolver: zodResolver(formAuthSchema),
   });
@@ -34,27 +33,17 @@ const FormAuth = () => {
   const [errorStatus, setErrorStatus] = useState<{
     code: number;
     message: string;
-  }>({ code: 0, message: "" });
+  }>({code: 0, message: ""});
 
   const router = useRouter();
 
-  const supabase = createClient();
-
   const onSubmit = async (data: FormData) => {
+    const supabase = createClient();
+    const authService = new AuthService(supabase);
     setStatu("loading");
 
     if (pathname === "/register") {
-      const { data: res, error } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
-        options: {
-          data: {
-            full_name: data.fullName,
-            user_name: data.usuario,
-            avatar_url: "",
-          },
-        },
-      });
+      const {error} = await authService.register(data);
 
       if (error === null) {
         reset();
@@ -62,25 +51,25 @@ const FormAuth = () => {
         router.push("/login");
         return;
       }
-      console.log(error, "error");
-      setStatu("error");
-      setErrorStatus({ code: error.status!, message: error.message });
+
+      handleError(error);
 
       return;
     }
 
-    const { data: res, error } = await supabase.auth.signInWithPassword({
-      email: data.email,
-      password: data.password,
-    });
-    console.log(data, error);
+    const {error} = await authService.login(data);
+
     if (error === null) {
       setStatu("success");
       router.push("/single_sign_on");
       return;
     }
 
-    setErrorStatus({ code: error.status!, message: error.message });
+    handleError(error);
+  };
+
+  const handleError = (error: any) => {
+    setErrorStatus({code: error.status!, message: error.message});
     setStatu("error");
   };
 
@@ -93,15 +82,9 @@ const FormAuth = () => {
 
         <p className="text-neutral-500 text-xs">Bienvenido de nuevo</p>
       </div>
-      <form
-        action=""
-        method="POST"
-        className="flex flex-col gap-4"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
         {pathname !== "/login" && (
           <>
-       
             <InputOne
               variant="fullname"
               type="text"
@@ -124,27 +107,28 @@ const FormAuth = () => {
             />
           </>
         )}
-           <InputOne 
-           variant="email"
-           type="email" 
-           placeholder="psierra@gmail.com"
-           name="email"
-           register={register}
-           required
-           error={errors.email}
-           text={watch("email")!}
-           />
-           <InputOne
-           variant="password" 
-           type="password" 
-           placeholder="*****"
-           name="password"
-           register={register}
-           required
-           error={errors.password}
-           text={watch("password")!}
-           />
-    
+        <InputOne
+          variant="email"
+          type="email"
+          placeholder="psierra@gmail.com"
+          name="email"
+          register={register}
+          required
+          error={errors.email}
+          text={watch("email")!}
+          value="testdev1385@gmail.com"
+        />
+        <InputOne
+          variant="password"
+          type="password"
+          placeholder="*****"
+          name="password"
+          register={register}
+          required
+          error={errors.password}
+          text={watch("password")!}
+          value="13853211ps@"
+        />
 
         <div className="w-full">
           <button
@@ -152,7 +136,7 @@ const FormAuth = () => {
             onClick={(e) => {
               e.stopPropagation();
             }}
-            className="w-full h-[52px] px-2 mb-1 rounded-lg bg-sky-600 disabled:bg-sky-300 text-white flex justify-center items-center text-sm"
+            className="w-full h-[52px] px-2 mb-1 rounded-lg bg-sky-600 hover:bg-sky-700 disabled:bg-sky-300 text-white flex justify-center items-center text-sm"
             disabled={statu === "loading"}
           >
             {statu === "loading" ? (

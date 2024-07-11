@@ -1,14 +1,14 @@
 "use client";
 import EmojiPicker from "@/app/components/emoji-picker";
 import CommetsService from "@/app/services/comment";
-import React, { useRef, useState } from "react";
-import { BiHappy } from "react-icons/bi";
+import React, {useRef, useState} from "react";
+import {BiHappy} from "react-icons/bi";
 import CardComment from "./card-comment";
 
-import { Comment } from "@/app/types/comments";
+import {Comment} from "@/app/types/comments";
 import NotificationService from "@/app/services/notification";
 import ClickOutsideComponent from "@/app/components/click-outside";
-import { createClient } from "@/app/utils/supabase/client";
+import {createClient} from "@/app/utils/supabase/client";
 
 const InpuntComment = ({
   post_id,
@@ -21,7 +21,7 @@ const InpuntComment = ({
   owner_id: string | null;
   type: "onePost" | "listPost";
 }) => {
-  const supabase = createClient()
+  const supabase = createClient();
   const [text, setText] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
   const [newComment, setNewComment] = useState<[] | Comment[]>([]);
@@ -36,7 +36,7 @@ const InpuntComment = ({
   const hanldeClick = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus("loading");
-    const { data, error } = await commentService.add(post_id, text);
+    const {data, error} = await commentService.add(post_id, text);
 
     if (error === null && data) {
       await notiService.add({
@@ -61,7 +61,7 @@ const InpuntComment = ({
 
   const insertEmoji = (emoji: string) => {
     if (inputRef.current) {
-      const { selectionStart, selectionEnd } = inputRef.current;
+      const {selectionStart, selectionEnd} = inputRef.current;
       if (selectionStart !== null && selectionEnd !== null) {
         const comment =
           text.slice(0, selectionStart) + emoji + text.slice(selectionEnd);
@@ -91,7 +91,7 @@ const InpuntComment = ({
             ref={inputRef}
             value={text}
             name=""
-            className="text-xs font-thin grow dark:bg-black hover:outline-none focus:outline-none resize-none  outline-none overflow-hidden"
+            className="text-xs font-thin dark:text-white grow dark:bg-black hover:outline-none focus:outline-none resize-none  outline-none overflow-hidden"
             autoComplete="false"
             autoCorrect="false"
             placeholder="Escriba un comentario aqui"

@@ -1,14 +1,14 @@
 "use client";
 import Skeleton from "@/app/components/skeleton";
-import { User } from "@/app/types/user";
-import { createClient } from "@/app/utils/supabase/client";
+import {User} from "@/app/types/user";
+import {createClient} from "@/app/utils/supabase/client";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { BiSearch, BiX } from "react-icons/bi";
+import {useRouter} from "next/navigation";
+import React, {useState} from "react";
+import {BiSearch, BiX} from "react-icons/bi";
 
-const Search = ({ onClose }: { onClose: () => void }) => {
-  const supabase = createClient()
+const Search = ({onClose}: {onClose: () => void}) => {
+  const supabase = createClient();
   const router = useRouter();
 
   const [status, setStatus] = useState<
@@ -20,7 +20,7 @@ const Search = ({ onClose }: { onClose: () => void }) => {
     setStatus("loading");
 
     if (e.target.value.length > 0) {
-      const { data: users, error } = await supabase
+      const {data: users, error} = await supabase
         .from("users")
         .select()
         .ilike("full_name", "%" + e.target.value + "%");
@@ -40,9 +40,12 @@ const Search = ({ onClose }: { onClose: () => void }) => {
     <div className="h-screen sm:h-[calc(100vh-100px)] flex flex-col w-screen sm:w-[500px] bg-white dark:bg-black sm:rounded-xl">
       <header className="flex flex-col p-3 md:p-6 border-b-2 border-b-[#313131] w-full mb-3">
         <div className="flex justify-between items-center mb-3">
-          <h4 className=" text-sm">Búsquedad</h4>
+          <h4 className=" text-sm dark:text-white">Búsquedad</h4>
 
-          <button className="cursor-pointer right-2 top-2" onClick={onClose}>
+          <button
+            className="text-2xl cursor-pointer right-2 top-2 dark:text-white"
+            onClick={onClose}
+          >
             <BiX />
           </button>
         </div>

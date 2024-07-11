@@ -1,10 +1,10 @@
 "use client";
 import NotificationService from "@/app/services/notification";
 import PostService from "@/app/services/post";
-import { Likes } from "@/app/types/likes";
-import { createClient } from "@/app/utils/supabase/client";
-import React, { useState } from "react";
-import { BiHeart, BiSolidHeart } from "react-icons/bi";
+import {Likes} from "@/app/types/likes";
+import {createClient} from "@/app/utils/supabase/client";
+import React, {useState} from "react";
+import {BiHeart, BiSolidHeart} from "react-icons/bi";
 
 const BtnLike = ({
   likes,
@@ -19,7 +19,7 @@ const BtnLike = ({
 }) => {
   const [allLikes, setAllLikes] = useState(likes.length);
   const [like, setLike] = useState(isLike);
-  const supabase = createClient()
+  const supabase = createClient();
   const postService = new PostService(supabase);
   const notiService = new NotificationService(supabase);
   const handleLike = async () => {
@@ -27,14 +27,14 @@ const BtnLike = ({
 
     if (like) {
       //deslike
-      const { data, error } = await postService.like_deslike(postId, "deslike");
+      const {data, error} = await postService.like_deslike(postId, "deslike");
       console.log(data, error);
       if (error) {
         updateLike(false);
       }
     } else {
       //like
-      const { data, error } = await postService.like_deslike(postId, "like");
+      const {error} = await postService.like_deslike(postId, "like");
       if (error) {
         updateLike(true);
         console.log("likes");
@@ -54,7 +54,9 @@ const BtnLike = ({
   return (
     <div className="flex flex-col mr-2 justify-center items-center">
       <button
-        className={`text-3xl ${like ? "text-red-700" : ""}`}
+        className={`text-3xl hover:text-neutral-400 ${
+          like ? "text-red-700" : ""
+        }`}
         onClick={handleLike}
       >
         {like ? <BiSolidHeart /> : <BiHeart />}

@@ -1,16 +1,16 @@
 "use client";
-import React, { useState, Suspense, useRef } from "react";
-import { BiHomeAlt, BiUserCircle } from "react-icons/bi";
+import React, {useState, Suspense, useRef} from "react";
+import {BiHomeAlt, BiUserCircle} from "react-icons/bi";
 import LinkCustom from "./link";
-import ButtonModal from "./btn-modal";
+import ButtonModal from "./btn-post";
 import ButtonSearch from "./btn-search";
 import BtnNotification from "./btn-notification";
 import Notification from "./notification";
-import { User } from "@/app/types/user";
+import {User} from "@/app/types/user";
 import BtnMenu from "./btn-menu";
 import Image from "next/image";
 import ClickOutside from "@/app/components/click-outside";
-const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
+const NavBar = ({user, num_noti}: {user: User; num_noti: number}) => {
   const [showNoti, setNotiShow] = useState(false);
   const buttonRef = useRef<HTMLButtonElement | null>(null);
 
@@ -67,20 +67,21 @@ const NavBar = ({ user, num_noti }: { user: User; num_noti: number }) => {
             <BtnMenu />
           </div>
           {showNoti && (
-            <ClickOutside onClose={(event) => {
-              if (
-                buttonRef.current &&
-                !buttonRef.current.contains(event?.target as Node)
-              ) {
-                setNotiShow(false);
-              }
-            }}>
-            <div className="hidden md:block absolute left-[70px] transition ease-in-out delay-150 translate-x-[0%]">
-              <div className="min-w-[340px] px-2">
-                <Notification />
+            <ClickOutside
+              onClose={(event) => {
+                if (
+                  buttonRef.current &&
+                  !buttonRef.current.contains(event?.target as Node)
+                ) {
+                  setNotiShow(false);
+                }
+              }}
+            >
+              <div className="hidden md:block absolute left-[70px] transition ease-in-out delay-150 translate-x-[0%]">
+                <div className="min-w-[340px] px-2">
+                  <Notification />
+                </div>
               </div>
-            </div>
-
             </ClickOutside>
           )}
         </div>

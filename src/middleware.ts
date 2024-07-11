@@ -1,17 +1,17 @@
-import { Database } from "@/app/types/database";
 import { createServerClient, type CookieOptions } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from "next/server";
-
-
+import UserService from './app/services/user';
+ 
+// This function can be marked `async` if using `await` inside
 export async function middleware(request: NextRequest) {
+  console.log("middleware")
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   })
 
-  console.log("middleware")
-
+  
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
@@ -58,10 +58,18 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data } = await supabase.auth.getUser()
-  console.log(data, 'mddasdasdasdasdasdasdasd')
-  return response
+  if(request.nextUrl.pathname === '/single_sign_on'){
+    const userService = new UserService(supabase);
+
+    const {data: user} = await userService.getUser();
+
+    if(user && user.is_completed) {
+      return NextResponse.redirect(new URL('/', request.url))
+    }
+  }
+  return NextResponse.next()
 }
+ 
 
 export const config = {
   matcher: [
