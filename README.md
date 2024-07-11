@@ -18,7 +18,7 @@ Users should be able to:
 -Login and register with email or google Auth
 - View the optimal layout for the site depending on their device's screen size
 - Create, comment, like post
--Search user and fallow
+-Search user and fallow 
 
 ### Screenshot
 ![nextgram-phone](https://github.com/user-attachments/assets/00d720e9-ba44-4091-bd69-369629e4743e)
@@ -41,7 +41,7 @@ Users should be able to:
 - CSS Grid
 - Mobile-first workflow
 - [Next](https://nextjs.org/) - React Framework
-- [Supabase](https://supabase.com/)
+- [Supabase](https://supabase.com/) - Database
 
 ### What I learned
 
