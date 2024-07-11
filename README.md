@@ -35,10 +35,7 @@ Users should be able to:
 
 ### Built with
 
-- Semantic HTML5 markup
-- CSS custom properties
-- Flexbox
-- CSS Grid
+-Tailwindcss
 - Mobile-first workflow
 - [Next](https://nextjs.org/) - React Framework
 - [Supabase](https://supabase.com/) - Database
