@@ -41,6 +41,7 @@ Users should be able to:
 - CSS Grid
 - Mobile-first workflow
 - [Next](https://nextjs.org/) - React Framework
+- [Supabase](https://supabase.com/)
 
 ### What I learned
 
